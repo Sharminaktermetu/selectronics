@@ -5,7 +5,7 @@ const is_live = true //true for live, false for sandbox
 const { v4: uuid } = require("uuid");
 const store_id = process.env.SSL_USERNAME;
 const store_passwd =process.env.SSL_PASS
-const PaymentSSL =require('../schemas/sslPaySchema')
+// const PaymentSSL =require('../schemas/sslPaySchema')
 // const store_id = 'sslin6540f8f222862'
 // const store_passwd = 'sslin6540f8f222862@ssl'
 
