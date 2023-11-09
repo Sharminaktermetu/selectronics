@@ -3,7 +3,8 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 /* import handler */
-
+// compression
+const compression =require('compression')
 const courseHandler = require('./routeHandler/courseHandler');
 
 const blogHandler = require('./routeHandler/BlogsHandler');
@@ -60,7 +61,10 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 8080;
 const cors = require('cors');
 const crypto = require('crypto');
-
+app.use(compression({
+  level:6,
+  threshold:10*1000
+}))
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
 app.use(cors());
