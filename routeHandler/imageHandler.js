@@ -43,11 +43,11 @@ const spaces = new AWS.S3({
   secretAccessKey: process.env.OCEAN_SECRET_KEY,
 });
 
-router.post("/images", (req, res) => {
-  const { file } = req.files;
-  
-  res.send("Received");
-});
+// router.post("/images", (req, res) => {
+//   // const { file } = req.files;
+//   
+//   res.send("Received");
+// });
 router.post('/images', async (req, res) => {
   
   const { file } = req.files;
@@ -78,27 +78,27 @@ router.post('/images', async (req, res) => {
 });
 
 // get all
-router.get("/images/upload", async (req, res) => {
-  const image = await Image.find({});
-  res.json(image);
-});
+// router.get("/images/upload", async (req, res) => {
+//   const image = await Image.find({});
+//   res.json(image);
+// });
 
 // get single
-router.get("/images/upload/:id", async (req, res) => {
-  const image = await Image.findById(req.params.id);
-  res.json(image);
-});
+// router.get("/images/upload/:id", async (req, res) => {
+//   const image = await Image.findById(req.params.id);
+//   res.json(image);
+// });
 
 // delete
-router.delete("/images/upload/:id", async (req, res) => {
-  const deletedImage = await Image.findByIdAndDelete(req.params.id);
-  await spaces
-    .deleteObject({
-      Bucket: config.spaces.spaceName,
-      Key: deletedImage.key,
-    })
-    .promise();
-  res.json(deletedImage);
-});
+// router.delete("/images/upload/:id", async (req, res) => {
+//   const deletedImage = await Image.findByIdAndDelete(req.params.id);
+//   await spaces
+//     .deleteObject({
+//       Bucket: config.spaces.spaceName,
+//       Key: deletedImage.key,
+//     })
+//     .promise();
+//   res.json(deletedImage);
+// });
 
 module.exports = router;
