@@ -3,8 +3,8 @@ const spaces = {
   blogSpace: 'blogimage',
   teacherNoteSpace: 'teachernotespace',
   url: 'nyc3.digitaloceanspaces.com',
-  accessKeyId: process.env.OCEAN_ACCESS_KEY,
-  secretAccessKey: process.env.OCEAN_SECRET_KEY,
+  accessKeyId:'JXR6ZKRGVW2YTZM7WNPD',
+  secretAccessKey:'w/U21qLtZObY4cV8CLy2pZ+qtiq0hBdhdnjwqDgRA2M',
 };
 
 module.exports = {
