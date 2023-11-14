@@ -136,7 +136,7 @@ app.use('/mail', sendMailHandler);
 app.use('/leaderBoard', leaderBoardHandler);
 
 app.use('/surjopay', shurjoPay);
-app.use('/sslpay', shurjoPay);
+app.use('/sslpay', sslpay);
 app.use('/rooms', roomHandler);
 app.use('/chat', chatHandler);
 app.use('/message', messageHandler);
