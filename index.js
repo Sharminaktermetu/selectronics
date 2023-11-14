@@ -41,6 +41,7 @@ const teacherNoteUploadHandler = require('./routeHandler/teacherNoteHandler');
 const imageHandler = require('./routeHandler/imageHandler');
 const leaderBoardHandler = require('./routeHandler/LeaderBoardHandler');
 const shurjoPay = require('./routeHandler/Shurjo-pay');
+const sslpay = require('./routeHandler/ssl-pay');
 
 const roomHandler = require('./routeHandler/roomHandler');
 
@@ -135,6 +136,7 @@ app.use('/mail', sendMailHandler);
 app.use('/leaderBoard', leaderBoardHandler);
 
 app.use('/surjopay', shurjoPay);
+app.use('/sslpay', shurjoPay);
 app.use('/rooms', roomHandler);
 app.use('/chat', chatHandler);
 app.use('/message', messageHandler);
