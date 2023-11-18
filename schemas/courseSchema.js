@@ -51,6 +51,8 @@ const courseSchema = mongoose.Schema({
   },
   teacherInfo: Array,
   courseTime:Number,
+  courseSeat:Number,
+  courseDay:Number,
   salePrice: {
     type: Number,
   },
