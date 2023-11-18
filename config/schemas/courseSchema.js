@@ -49,9 +49,7 @@ const courseSchema = mongoose.Schema({
   level: {
     type: String,
   },
-  courseTime: {
-    type: Number,
-  },
+  courseTime:Number,
   teacherInfo: Array,
 
   salePrice: {

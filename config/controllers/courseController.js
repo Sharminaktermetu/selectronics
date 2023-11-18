@@ -9,7 +9,7 @@ const createCourse = asyncHandler(async (req, res) => {
     const newCourse = await Course.create({
       ...req.body,
     });
-
+    console.log(newCourse);
     res.status(200).json({
       success: true,
       message: 'Course created Successfully',
