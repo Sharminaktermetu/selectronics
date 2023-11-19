@@ -11,9 +11,8 @@ const shurjopay = require('shurjopay')();
 
 router.get('/checkout_return',return_callback )
 router.get('/checkout_cancel',cancel_callback)
-
 router.post("/checkout", checkoutPay)
 router.get("/",checkLogin,admin,getAllPayment)
-
+       
 
 module.exports = router

@@ -64,33 +64,33 @@ router.post('/ipn', (req, res) => {
   const data = req.body;
 console.log(data);
   // Validate the IPN data
-  // const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-  // const isValidIPN = sslcz.validateIpnResponse(data);
+  const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  const isValidIPN = sslcz.validateIpnResponse(data);
 
-  // if (isValidIPN) {
-  //   // IPN data is valid, perform necessary actions
-  //   const transactionStatus = data.status;
-  //   const transactionID = data.transaction_id;
+  if (isValidIPN) {
+    // IPN data is valid, perform necessary actions
+    const transactionStatus = data.status;
+    const transactionID = data.transaction_id;
 
-  //   if (transactionStatus === 'VALID') {
-  //     // Payment was successful, update order status or perform other actions
-  //     console.log(`Payment successful for transaction ID: ${transactionID}`);
-  //     // Update order status, send confirmation emails, etc.
-  //     // ...
-  //   } else {
-  //     // Handle other transaction statuses (e.g., 'INVALID', 'FAILED', etc.)
-  //     console.log(`Payment failed or other status: ${transactionStatus}`);
-  //     // Handle accordingly
-  //     // ...
-  //   }
+    if (transactionStatus === 'VALID') {
+      // Payment was successful, update order status or perform other actions
+      console.log(`Payment successful for transaction ID: ${transactionID}`);
+      // Update order status, send confirmation emails, etc.
+      // ...
+    } else {
+      // Handle other transaction statuses (e.g., 'INVALID', 'FAILED', etc.)
+      console.log(`Payment failed or other status: ${transactionStatus}`);
+      // Handle accordingly
+      // ...
+    }
 
-  //   // Send a response to SSLCOMMERZ to acknowledge receipt
-  //   res.json({ status: 'OK' });
-  // } else {
-  //   // IPN data is not valid, handle accordingly (e.g., log, ignore, etc.)
-  //   console.error('Invalid IPN data received');
-  //   res.status(400).json({ status: 'Invalid IPN data' });
-  // }
+    // Send a response to SSLCOMMERZ to acknowledge receipt
+    res.json({ status: 'OK' });
+  } else {
+    // IPN data is not valid, handle accordingly (e.g., log, ignore, etc.)
+    console.error('Invalid IPN data received');
+    res.status(400).json({ status: 'Invalid IPN data' });
+  }
 });
 
 
