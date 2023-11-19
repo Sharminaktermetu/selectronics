@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const SSLCommerzPayment = require('sslcommerz-lts')
-const is_live = false //true for live, false for sandbox
+const is_live = true //true for live, false for sandbox
 const { v4: uuid } = require("uuid");
-// const store_id = 'qawmiuniversity0live';
-// const store_passwd ="6548F3072FE1D36902"
+const store_id = 'qawmiuniversity0live';
+const store_passwd ="6548F3072FE1D36902"
 // const PaymentSSL =require('../schemas/sslPaySchema')
-const store_id = 'sslin6540f8f222862'
-const store_passwd = 'sslin6540f8f222862@ssl'
+// const store_id = 'sslin6540f8f222862'
+// const store_passwd = 'sslin6540f8f222862@ssl'
 
 router.post('/ssl-request', (req, res) => {
  
