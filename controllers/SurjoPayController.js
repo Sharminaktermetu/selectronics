@@ -7,10 +7,6 @@ var FormData = require('form-data');
 const currentDate = require("../utilis/getCurrentDate");
 const asyncHandler = require("express-async-handler");
 
-
-
-
-
 const checkoutPay = async (req, res) => {
 
     const { paymentData } = req.body
@@ -159,14 +155,7 @@ const return_callback = async (req, res, next) => {
                 }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
+
     
                 res.redirect("https://qawmiuniversity.com/check-out/done")
     
@@ -194,14 +183,7 @@ const cancel_callback = async (req, res, next) => {
     let productId;
 
 
-
-
-
     res.redirect("https://qawmiuniversity.com/check-out/failed")
-
-
-
-
 
 
 

@@ -3,6 +3,7 @@ const router = express.Router()
 const SSLCommerzPayment = require('sslcommerz-lts')
 const is_live = true //true for live, false for sandbox
 const { v4: uuid } = require("uuid");
+const Payment = require('../schemas/SurjoPaySchema');
 const store_id = 'qawmiuniversity0live';
 const store_passwd ="6548F3072FE1D36902"
 // const PaymentSSL =require('../schemas/sslPaySchema')
@@ -55,39 +56,55 @@ router.post('/ssl-request', (req, res) => {
     
   })
 
-  router.post('/ipn', (req, res) => {
-    const data = req.body;
-  console.log(data);
-    // Validate the IPN data
-    const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-    const isValidIPN = sslcz.validateIpnResponse(data);
+
+  router.post('/ipn', async(req, res) => {
+    try {
+     
+      const data = req.body;
+
+      // Validate the IPN data
+      const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+      const isValidIPN = sslcz.validateIpnResponse(data);
+    
+      if (isValidIPN) {
+        // IPN data is valid, perform necessary actions
+        const transactionStatus = data.status;
+        const transactionID = data.transaction_id;
+    
+        if (transactionStatus === 'VALID') {
+         
+          console.log(`Payment successful for transaction ID: ${transactionID}`);
   
-    if (isValidIPN) {
-      // IPN data is valid, perform necessary actions
-      const transactionStatus = data.status;
-      const transactionID = data.transaction_id;
-  
-      if (transactionStatus === 'VALID') {
-        // Payment was successful, update order status or perform other actions
-        console.log(`Payment successful for transaction ID: ${transactionID}`);
-        // Update order status, send confirmation emails, etc.
-        // ...
+        } else {
+          
+          console.log(`Payment failed or other status: ${transactionStatus}`);
+          
+        }
+    
+        
+        res.json({ status: 'OK' });
       } else {
-        // Handle other transaction statuses (e.g., 'INVALID', 'FAILED', etc.)
-        console.log(`Payment failed or other status: ${transactionStatus}`);
-        // Handle accordingly
-        // ...
+
+        console.error('Invalid IPN data received');
+        res.status(400).json({ status: 'Invalid IPN data' });
       }
+      
+      const newPayment = new Payment({
+        order_id: data.order_id,
+        amount: data.amount,
+        sslCommerzField1: data.sslCommerzField1,
+        sslCommerzField2: data.sslCommerzField2,
+        // ... other common and SSLCommerz-specific fields
+      });
   
-      // Send a response to SSLCOMMERZ to acknowledge receipt
+      
+      await newPayment.save();
+  
       res.json({ status: 'OK' });
-    } else {
-      // IPN data is not valid, handle accordingly (e.g., log, ignore, etc.)
-      console.error('Invalid IPN data received');
-      res.status(400).json({ status: 'Invalid IPN data' });
+    } catch (error) {
+      res.status(500).json({ status: 'Invalid IPN data' });
     }
   });
-
 
 
 

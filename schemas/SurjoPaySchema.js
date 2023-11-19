@@ -120,6 +120,8 @@ const SurjoPaySchema = mongoose.Schema(
             type:String,
            
         },
+        sslCommerzField1: { type: String },
+        sslCommerzField2: { type: String },
       
   }
 );
