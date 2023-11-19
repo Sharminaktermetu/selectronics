@@ -1,18 +1,18 @@
 const express = require('express')
 const router = express.Router()
 const SSLCommerzPayment = require('sslcommerz-lts')
-const is_live = true //true for live, false for sandbox
+const is_live = false //true for live, false for sandbox
 const { v4: uuid } = require("uuid");
-const store_id = 'qawmiuniversity0live';
-const store_passwd ="6548F3072FE1D36902"
+// const store_id = 'qawmiuniversity0live';
+// const store_passwd ="6548F3072FE1D36902"
 // const PaymentSSL =require('../schemas/sslPaySchema')
-// const store_id = 'sslin6540f8f222862'
-// const store_passwd = 'sslin6540f8f222862@ssl'
+const store_id = 'sslin6540f8f222862'
+const store_passwd = 'sslin6540f8f222862@ssl'
 
 router.post('/ssl-request', (req, res) => {
  
   const  paymentData  = req.body;
-  console.log(paymentData);
+  // console.log(paymentData);
   const tran_id =uuid()
     const data = {
         total_amount: paymentData?.amount,
@@ -21,7 +21,7 @@ router.post('/ssl-request', (req, res) => {
         success_url: `https://qawmiuniversity.com/check-out/done`,
         fail_url: 'https://qawmiuniversity.com/check-out/failed',
         cancel_url: 'https://qawmiuniversity.com/*',
-        ipn_url: 'http://localhost:3030/ipn',
+        ipn_url: 'https://qawmiuniversity.com/ipn',
         shipping_method: 'Courier',
         product_name: 'Computer.',
         product_category: 'Electronic',
@@ -44,7 +44,7 @@ router.post('/ssl-request', (req, res) => {
         ship_postcode: 1000,
         ship_country: 'Bangladesh',
     };
-    console.log(data);
+    // console.log(data);
     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live)
     sslcz.init(data).then(apiResponse => {
         // Redirect the user to payment gateway
@@ -59,38 +59,44 @@ router.post('/ssl-request', (req, res) => {
     });
     
     
+// Handle IPN (Instant Payment Notification)
+router.post('/ipn', (req, res) => {
+  const data = req.body;
+console.log(data);
+  // Validate the IPN data
+  // const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
+  // const isValidIPN = sslcz.validateIpnResponse(data);
+
+  // if (isValidIPN) {
+  //   // IPN data is valid, perform necessary actions
+  //   const transactionStatus = data.status;
+  //   const transactionID = data.transaction_id;
+
+  //   if (transactionStatus === 'VALID') {
+  //     // Payment was successful, update order status or perform other actions
+  //     console.log(`Payment successful for transaction ID: ${transactionID}`);
+  //     // Update order status, send confirmation emails, etc.
+  //     // ...
+  //   } else {
+  //     // Handle other transaction statuses (e.g., 'INVALID', 'FAILED', etc.)
+  //     console.log(`Payment failed or other status: ${transactionStatus}`);
+  //     // Handle accordingly
+  //     // ...
+  //   }
+
+  //   // Send a response to SSLCOMMERZ to acknowledge receipt
+  //   res.json({ status: 'OK' });
+  // } else {
+  //   // IPN data is not valid, handle accordingly (e.g., log, ignore, etc.)
+  //   console.error('Invalid IPN data received');
+  //   res.status(400).json({ status: 'Invalid IPN data' });
+  // }
+});
 
 
   })
   
-//   app.get('/validate', (req, res) => {
-//     const val_id = req.query.val_id; 
-//     const data = {
-//         val_id: val_id
-//     };
 
-   
-//     const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-
-   
-//     sslcz.validate(data).then(apiResponse => {
-
-//         if (apiResponse.status === 'VALID') {
-            
-//             console.log('Transaction is valid');
-//         } else {
-           
-//             console.log('Transaction is not valid');
-//         }
-
-//         // Send a response back to the client
-//         res.json(apiResponse);
-//     }).catch(error => {
-//         // Handle errors that might occur during the validation process
-//         console.error('Validation error:', error);
-//         res.status(500).json({ error: 'Internal Server Error' });
-//     });
-// });
 
 
 
