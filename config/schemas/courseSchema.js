@@ -49,9 +49,9 @@ const courseSchema = mongoose.Schema({
   level: {
     type: String,
   },
-  courseTime:Number,
-  courseSeat:Number,
-  courseDay:Number,
+  courseTime:String,
+  courseSeat:String,
+  courseDay:String,
   
   teacherInfo: Array,
 
