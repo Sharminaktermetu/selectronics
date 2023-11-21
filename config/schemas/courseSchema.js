@@ -38,7 +38,7 @@ const courseSchema = mongoose.Schema({
     default: false,
   },
   article: {
-    type: Number,
+    type: String,
   },
   medium: {
     type: String,
