@@ -15,7 +15,7 @@ const bookSchema = mongoose.Schema({
     required: true,
   },
   banPrice:String,
-
+  banSalePrice:String,
   page: {
     type: String,
     required: true,
