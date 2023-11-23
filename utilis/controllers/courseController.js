@@ -46,7 +46,9 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'courseType',
         'review',
         'banPrice',
-        'banSalePrice'
+        'banSalePrice',
+        'studentTotal',
+        'teacherName',
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -86,7 +88,9 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseSeat',
         'courseDay',
         'banPrice',
-        'banSalePrice'
+        'banSalePrice',
+        'studentTotal',
+        'teacherName',
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -194,7 +198,9 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'medium',
       'rank',
       'banPrice',
-      'banSalePrice'
+      'banSalePrice',
+      'studentTotal',
+      'teacherName'
     ]);
 
     res.status(201).json({

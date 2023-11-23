@@ -63,6 +63,10 @@ const courseSchema = mongoose.Schema({
   },
   banPrice:String,
   banSalePrice:String,
+  banSalePrice:String,
+  studentTotal:String,
+  teacherName:String,
+
   description: String,
   PromoCode:String,
   PromoPercentage:Number,
