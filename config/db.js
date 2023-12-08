@@ -1,7 +1,8 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-
+ 
+  // mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority
   mongoose
     .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {

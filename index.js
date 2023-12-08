@@ -55,7 +55,7 @@ const addHandler = require('./routeHandler/addHandler');
 // const newUser =require ('./routeHandler/newuserHandler')
 const app = express();
 const server = require('http').createServer(app);
-// const addotp = require('./routeHandler/newuserHandler')
+const addotp = require('./routeHandler/newuserHandler')
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
 
@@ -82,7 +82,7 @@ app.get('/', async (req, res) => {
 
 
 
-// app.use('/create-user', addotp);
+app.use('/create-user', addotp);
 
 app.use('/course', courseHandler);
 app.use('/book', bookHandler);
