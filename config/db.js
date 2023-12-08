@@ -5,8 +5,8 @@ const connectDB = async () => {
   mongoose
     .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {
-        // useNewUrlParser: true,
-        // useUnifiedTopology: true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
       //  bufferTimeoutMS: 30000,
       // socketTimeoutMS: 1000 // 30 seconds
       // bufferCommands: false, // Disables buffering
