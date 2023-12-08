@@ -30,7 +30,6 @@
     "nodemon": "^2.0.16",
     "otp-generator": "^4.0.1",
     "request-promise": "^4.2.6",
-    "shurjopay": "^0.10.3",
     "socket.io": "^4.5.1",
     "sslcommerz-lts": "^1.1.0"
   }
