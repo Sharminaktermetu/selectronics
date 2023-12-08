@@ -15,9 +15,11 @@ const ObjectId = require("mongodb").ObjectId;
 /****** Register user ********/
 
 const registerUser = asyncHandler(async (req, res) => {
+  console.log(req.body);
   try {
-
+   
     const user = await User.findOne({ email: req.body.email });
+    console.log(user);
     const verifyToken = crypto.randomBytes(20).toString("hex");
 
     // Hash token (private key) and save to database
@@ -96,7 +98,7 @@ const registerUser = asyncHandler(async (req, res) => {
   </body>
     
    `;
-
+    
     if (user?.name && user?.isVerified === true) 
     
     {

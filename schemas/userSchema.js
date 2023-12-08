@@ -138,7 +138,7 @@ const userSchema = mongoose.Schema({
   }],
   verifyToken:String,
   verifyTokenExpire:Date
- 
+
 });
 
 userSchema.methods.getResetPasswordToken = () => {

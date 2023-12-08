@@ -52,9 +52,10 @@ const achievementHandler = require('./routeHandler/achievementHandler');
 const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriberHandler');
 const addHandler = require('./routeHandler/addHandler');
 
+// const newUser =require ('./routeHandler/newuserHandler')
 const app = express();
 const server = require('http').createServer(app);
-
+// const addotp = require('./routeHandler/newuserHandler')
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
 
@@ -64,16 +65,24 @@ const crypto = require('crypto');
 
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000',
+}));
+
 dotenv.config();
 app.set('view engine', 'ejs');
 
 // connecting mongodb
 connectDB();
 
+
 app.get('/', async (req, res) => {
   res.send('Qawmi primary server is running');
 });
+
+
+
+// app.use('/create-user', addotp);
 
 app.use('/course', courseHandler);
 app.use('/book', bookHandler);
@@ -144,6 +153,12 @@ app.use('/registration', registrationHandler);
 app.use('/achievement', achievementHandler);
 app.use('/subscriber', comingSoonSubscriberHandler);
 app.use('/add', addHandler);
+
+
+
+
+// app.use('/api/user', addotp);
+// app.use('/api/user',newUser)
 // app.use("/img", imageHandler);
 // app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
@@ -156,6 +171,15 @@ const io = require('socket.io')(server, {
     origin: 'https://qawmiuniversity.com',
   },
 });
+
+
+
+// Handle other routes
+app.get('*', (req, res) => {
+  res.status(404).json({ success: false, message: 'Route not found' });
+});
+
+
 
 // const server = http.createServer(app);
 // const io = socketio(server);

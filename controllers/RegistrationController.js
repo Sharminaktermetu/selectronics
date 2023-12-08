@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const User = require('../schemas/userSchema');
 const Registration = require('../schemas//registrationSchema');
 const ObjectId = require('mongodb').ObjectId;
+
 const createRegistration = asyncHandler(async (req, res) => {
   try {
     console.log(req.body);

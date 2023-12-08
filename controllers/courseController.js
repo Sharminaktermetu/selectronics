@@ -6,9 +6,14 @@ const ObjectId = require('mongodb').ObjectId;
 
 const createCourse = asyncHandler(async (req, res) => {
   try {
+    const slug = req.body.title.toLowerCase().replace(/ /g, '-');
     const newCourse = await Course.create({
       ...req.body,
+      slug: slug,
     });
+    // const newCourse = await Course.create({
+    //   ...req.body,
+    // });
 
     res.status(200).json({
       success: true,
