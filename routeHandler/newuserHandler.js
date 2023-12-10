@@ -13,8 +13,8 @@ router.post('/', async (req, res) => {
         const body = req.body;
         console.log(body);
         // const result = await NewUserModel.create({...req.body});
-      const result = NewUserModel({...req.body})
-       result.save()
+      const result =NewUserModel(body)
+    result.save()
         
         res.send(result);
     } catch (err) {

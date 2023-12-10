@@ -7,11 +7,10 @@ const connectDB = async () => {
     .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {
         
+        bufferCommands: false,
+        // bufferTimeoutMS: 0,
         useNewUrlParser: true,
-      useUnifiedTopology: true,
-      serverSelectionTimeoutMS: 5000, // Set a timeout for server selection
-  socketTimeoutMS: 45000,
-
+        useUnifiedTopology: true
       }
     )
     
