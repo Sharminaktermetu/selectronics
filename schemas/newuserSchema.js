@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// mongoose.connect('mongodb://127.0.0.1:27017/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
 const NewUserSchema = new mongoose.Schema({
 
     mobile: {
@@ -12,11 +13,7 @@ const NewUserSchema = new mongoose.Schema({
     email:{
         type:String
     },
-}, {
-    capped: { size: 1024 },
-    bufferCommands: false,
-    autoCreate: false // disable `autoCreate` since `bufferCommands` is false
-  })
+})
 
 
 const NewUserModel = mongoose.model('newUser', NewUserSchema);

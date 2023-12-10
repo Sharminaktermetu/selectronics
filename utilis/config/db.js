@@ -10,7 +10,7 @@ const connectDB = async () => {
         useUnifiedTopology: true,
       }
     )
-    .then(() => console.log("connected successfully"))
+    .then(() => console.log("connected successfully here"))
   .catch((error) => console.log(error));
 };
 

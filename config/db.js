@@ -3,15 +3,15 @@ const mongoose = require("mongoose");
 const connectDB = async () => {
  
   // mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority
-  mongoose
+ await mongoose
     .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {
+        
         useNewUrlParser: true,
-        useUnifiedTopology: true,
-      //  bufferTimeoutMS: 30000,
-      // socketTimeoutMS: 1000 // 30 seconds
-      // bufferCommands: false, // Disables buffering
-    // bufferMaxEntries: 0 // Sets bufferMaxEntries to 0
+      // useCreateIndex: true,
+      // useFindAndModify: false,
+      useUnifiedTopology: true,
+
       }
     )
     

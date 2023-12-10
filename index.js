@@ -73,7 +73,7 @@ dotenv.config();
 app.set('view engine', 'ejs');
 
 // connecting mongodb
-connectDB();
+ connectDB();
 
 
 app.get('/', async (req, res) => {
@@ -225,5 +225,5 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 server.listen(port, () => {
-  console.log("server connected")
+  console.log("server connected here")
 });

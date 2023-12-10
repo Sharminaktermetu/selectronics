@@ -9,12 +9,12 @@ const apiBaseUrl = 'https://portal.adnsms.com/api/v1/secure'; // Replace with yo
 router.post('/', async (req, res) => {
     console.log("i am  from line no 10");
     try {
-    const model=  NewUserModel.createCollection();
-    console.log(model, "iam from line 13");
+
         const body = req.body;
         console.log(body);
-        const result = await NewUserModel.connect(body);
-
+        // const result = await NewUserModel.create(body);
+      const result =new NewUserModel(body)
+      result.save()
         console.log(result);
         res.send(result);
     } catch (err) {
