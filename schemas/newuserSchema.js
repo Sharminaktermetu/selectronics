@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // mongoose.connect('mongodb://127.0.0.1:27017/myapp', { useNewUrlParser: true, useUnifiedTopology: true });
-const NewUserSchema = new mongoose.Schema({
+const NewUserSchema = mongoose.Schema({
 
     mobile: {
         type: String,
@@ -16,6 +16,6 @@ const NewUserSchema = new mongoose.Schema({
 })
 
 
-const NewUserModel = mongoose.model('newUser', NewUserSchema);
+const NewUserModel =new mongoose.model('newUser', NewUserSchema);
 
 module.exports = NewUserModel;

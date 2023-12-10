@@ -51,11 +51,11 @@ const registrationHandler = require('./routeHandler/RegistrationHandler');
 const achievementHandler = require('./routeHandler/achievementHandler');
 const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriberHandler');
 const addHandler = require('./routeHandler/addHandler');
-
+const addotp = require('./routeHandler/newuserHandler')
 // const newUser =require ('./routeHandler/newuserHandler')
 const app = express();
 const server = require('http').createServer(app);
-const addotp = require('./routeHandler/newuserHandler')
+
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
 

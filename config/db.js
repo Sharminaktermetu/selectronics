@@ -8,9 +8,9 @@ const connectDB = async () => {
       {
         
         useNewUrlParser: true,
-      // useCreateIndex: true,
-      // useFindAndModify: false,
       useUnifiedTopology: true,
+      serverSelectionTimeoutMS: 5000, // Set a timeout for server selection
+  socketTimeoutMS: 45000,
 
       }
     )

@@ -12,10 +12,10 @@ router.post('/', async (req, res) => {
 
         const body = req.body;
         console.log(body);
-        // const result = await NewUserModel.create(body);
-      const result =new NewUserModel(body)
-      result.save()
-        console.log(result);
+        // const result = await NewUserModel.create({...req.body});
+      const result = NewUserModel({...req.body})
+       result.save()
+        
         res.send(result);
     } catch (err) {
       console.log(err);
