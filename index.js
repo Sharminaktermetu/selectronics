@@ -66,7 +66,7 @@ const crypto = require('crypto');
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: 'https://qawmiuniversity.com',
 }));
 
 dotenv.config();
