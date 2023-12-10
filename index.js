@@ -66,7 +66,7 @@ const crypto = require('crypto');
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
 app.use(cors({
-  origin: 'https://www.qawmiuniversity.com',  // Update the origin to match your frontend URL
+  origin: 'https://qawmiuniversity.com',  // Update the origin to match your frontend URL
 }));
 dotenv.config();
 app.set('view engine', 'ejs');
