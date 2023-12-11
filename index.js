@@ -2,8 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
-/* import handler */
 
+/* import handler */
+// // // // // // 
+
+
+// 
 const courseHandler = require('./routeHandler/courseHandler');
 
 const blogHandler = require('./routeHandler/BlogsHandler');
@@ -40,8 +44,8 @@ const teacherNoteUploadHandler = require('./routeHandler/teacherNoteHandler');
 
 const imageHandler = require('./routeHandler/imageHandler');
 const leaderBoardHandler = require('./routeHandler/LeaderBoardHandler');
-// const shurjoPay = require('./routeHandler/Shurjo-pay');
-const sslpay = require('./routeHandler/ssl-pay');
+const shurjoPay = require('./routeHandler/Shurjo-pay');
+const sslPay = require('./routeHandler/ssl-pay');
 
 const roomHandler = require('./routeHandler/roomHandler');
 
@@ -51,10 +55,11 @@ const registrationHandler = require('./routeHandler/RegistrationHandler');
 const achievementHandler = require('./routeHandler/achievementHandler');
 const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriberHandler');
 const addHandler = require('./routeHandler/addHandler');
-const addotp = require('./routeHandler/newuserHandler')
-// const newUser =require ('./routeHandler/newuserHandler')
+const bkashHandler=require('./routeHandler/bkashHandler')
+const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
+const store= new session.MemoryStore()
 
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
@@ -63,23 +68,39 @@ const port = process.env.PORT || 8080;
 const cors = require('cors');
 const crypto = require('crypto');
 
+
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
-app.use(cors());
+app.use(cors({
+  origin: "*",
+}));
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+
+//   //  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); or add your react app url.
+//   next();
+// });
 dotenv.config();
 app.set('view engine', 'ejs');
+app.use(session({
+  
+  // It holds the secret key for session
+  secret: 'Secret_Key',
+  cookie:{maxAge:30000},
+  saveUninitialized:true,
+  resave:false,
+  store
+
+  
+}))
 
 // connecting mongodb
- connectDB();
+connectDB();
 
 
 app.get('/', async (req, res) => {
   res.send('Qawmi primary server is running');
 });
-
-
-
-app.use('/create-user', addotp);
 
 app.use('/course', courseHandler);
 app.use('/book', bookHandler);
@@ -101,7 +122,7 @@ app.use('/quiz', quizHandler);
 app.use('/banner', bannerHandler);
 app.use('/bannertwo', bannerTwoHandler);
 
-// app.use('/api/bkash-payment', bkashPaymentRoutes);
+
 
 app.use('/feedback', feedBackHandler);
 app.use('/mail', sendMailHandler);
@@ -140,24 +161,20 @@ app.use('/pricingplan', pricingPlanHandler);
 app.use('/feedback', feedBackHandler);
 app.use('/mail', sendMailHandler);
 app.use('/leaderBoard', leaderBoardHandler);
-
-// app.use('/surjopay', shurjoPay);
-app.use('/sslpay', sslpay);
+// 
+app.use('/sslpay', sslPay)
+// 
+ app.use('/surjopay', shurjoPay);
 app.use('/rooms', roomHandler);
 app.use('/chat', chatHandler);
 app.use('/message', messageHandler);
-app.use('/registration', registrationHandler);
+ app.use('/registration', registrationHandler);
 app.use('/achievement', achievementHandler);
 app.use('/subscriber', comingSoonSubscriberHandler);
 app.use('/add', addHandler);
-
-
-
-
-// app.use('/api/user', addotp);
-// app.use('/api/user',newUser)
-// app.use("/img", imageHandler);
-// app.use(require("./routeHandler/imageHandler"));
+app.use('/bkash',bkashHandler)
+app.use("/img", imageHandler);
+app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
@@ -165,18 +182,9 @@ app.use(imageHandler);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: 'https://qawmiuniversity.com',
+    origin: ['https://qawmiuniversity.com','http://localhost:3000'],
   },
 });
-
-
-
-// Handle other routes
-app.get('*', (req, res) => {
-  res.status(404).json({ success: false, message: 'Route not found' });
-});
-
-
 
 // const server = http.createServer(app);
 // const io = socketio(server);
@@ -222,5 +230,5 @@ const errorHandler = (err, req, res, next) => {
 app.use(errorHandler);
 
 server.listen(port, () => {
-  console.log("server connected here")
+  console.log("server connected")
 });

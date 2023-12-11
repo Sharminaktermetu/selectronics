@@ -136,9 +136,10 @@ const userSchema = mongoose.Schema({
     presentDate:Array
    
   }],
+  cartDetails:{},
   verifyToken:String,
   verifyTokenExpire:Date
-
+ 
 });
 
 userSchema.methods.getResetPasswordToken = () => {

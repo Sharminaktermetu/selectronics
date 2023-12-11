@@ -7,6 +7,10 @@ var FormData = require('form-data');
 const currentDate = require("../utilis/getCurrentDate");
 const asyncHandler = require("express-async-handler");
 
+
+
+
+
 const checkoutPay = async (req, res) => {
 
     const { paymentData } = req.body
@@ -17,16 +21,16 @@ const checkoutPay = async (req, res) => {
             "username": process.env.SURJO_USERNAME,
             "password": process.env.SURJO_PASS
         }
-        const { data } = await axios.post(" https://engine.shurjopayment.com/api/get_token", credentials)
-
-        console.log(req.body)
-
-        let newdata = new FormData();
+       
+        axios.post("https://engine.shurjopayment.com/api/get_token", credentials)
+        .then( async(data)=>{
+            console.log(data.data)
+            let newdata = new FormData();
         newdata.append('prefix', 'sp');
-        newdata.append('token', data?.token);
+        newdata.append('token', data?.data?.token);
         newdata.append('return_url', 'https://api.qawmiuniversity.com/surjopay/checkout_return');
         newdata.append('cancel_url', 'https://api.qawmiuniversity.com/surjopay/checkout_cancel');
-        newdata.append('store_id', data.store_id);
+        newdata.append('store_id', data.data.store_id);
         newdata.append('amount', paymentData.amount);
         newdata.append('order_id', paymentData.order_id);
         newdata.append('currency', 'BDT');
@@ -39,11 +43,25 @@ const checkoutPay = async (req, res) => {
         newdata.append('client_ip', '');
         newdata.append('value1', paymentData.value1);
 
-        console.log(newdata)
-        const newData = await axios.post(data.execute_url, newdata)
-        console.log(newData)
+            return axios.post(data.data.execute_url, newdata)
+            
+        })
+        .then(data=>{
+            res.json(data.data.checkout_url)
+        })
+        .catch((error)=>{
+            res.redirect("https://qawmiuniversity.com/check-out/failed")
+        })
+        
 
-        res.json(newData.data.checkout_url)
+        console.log(req.body)
+
+        
+
+        // 
+       
+
+      
     } catch (error) {
         res.status(500).json({
             error: "Oops! Something went wrong",
@@ -155,7 +173,7 @@ const return_callback = async (req, res, next) => {
                 }
     
     
-
+    
     
                 res.redirect("https://qawmiuniversity.com/check-out/done")
     
@@ -169,9 +187,8 @@ const return_callback = async (req, res, next) => {
     
 
     }catch(err){
-        res.status(500).json({
-            error: "Oops! Something went wrong",
-          });
+       
+          res.redirect("https://qawmiuniversity.com/check-out/failed")
     }
    
 
@@ -183,7 +200,14 @@ const cancel_callback = async (req, res, next) => {
     let productId;
 
 
+
+
+
     res.redirect("https://qawmiuniversity.com/check-out/failed")
+
+
+
+
 
 
 

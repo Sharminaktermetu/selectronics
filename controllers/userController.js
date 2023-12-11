@@ -15,11 +15,9 @@ const ObjectId = require("mongodb").ObjectId;
 /****** Register user ********/
 
 const registerUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
   try {
-   
+
     const user = await User.findOne({ email: req.body.email });
-    console.log(user);
     const verifyToken = crypto.randomBytes(20).toString("hex");
 
     // Hash token (private key) and save to database
@@ -98,7 +96,7 @@ const registerUser = asyncHandler(async (req, res) => {
   </body>
     
    `;
-    
+
     if (user?.name && user?.isVerified === true) 
     
     {
@@ -572,12 +570,8 @@ const updateUser = asyncHandler(async (req, res) => {
     let Id =  users.length + 1
 
 
-
-    if (user.length <= 0) {
-      res.status(401).json({
-        error: "You are not a valid user",
-      });
-    }
+    
+   
     const updateBlock = {};
 
     
@@ -607,6 +601,8 @@ const updateUser = asyncHandler(async (req, res) => {
         ...user[0]?.quizMarks,
       ];
     }
+   
+  
 
     if (req.body.TPayment) {
 
@@ -616,9 +612,11 @@ const updateUser = asyncHandler(async (req, res) => {
     const allObjectKey = Object.keys(req.body)
 
     allObjectKey.forEach(item => {
-      updateBlock[item] = req.body[item].length > 0 || req.body[item] === true || req.body[item] === false ? req.body[item] : user[0][item]
+      updateBlock[item] = req.body[item].length > 0 || req.body[item] === true || req.body[item] === false ||Object.keys( req.body[item]).length !== 0 ? req.body[item] : user[0][item]
     })
 
+
+  
 
     const updatedInfo = {
       $set: {
@@ -627,11 +625,51 @@ const updateUser = asyncHandler(async (req, res) => {
       },
     };
 
-
+console.log(req.body.email)
 
 
     const data = await User.updateMany({ email: req.body.email }, updatedInfo, { new: true });
 
+
+    console.log(data)
+    res.status(201).json({
+      success: true,
+      data: data,
+    });
+  } catch (error) {
+
+    console.log(error)
+    res.status(401).json({
+      error: "Something error, can not update",
+    });
+  }
+});
+
+// update cart for purchase
+const updateCart = asyncHandler(async (req, res) => {
+  try {
+    
+
+    const id=req.user._id
+
+    const updatedInfo = {
+      $set: {
+        ...req.body,
+
+      },
+    };
+
+
+
+
+    const data = await User.updateOne(
+      { _id: ObjectId(id) },
+       updatedInfo, 
+
+      { new: true })
+      ;
+
+    
 
     res.status(201).json({
       success: true,
@@ -755,7 +793,7 @@ const getSingleUserInfo = asyncHandler(async (req, res) => {
 const getManyByFilter = asyncHandler(async (req, res) => {
   try {
     
-    let users = await User.find({ email: { $in: req.body.emails } }).select("name email number role attendance avatar points studiedSchool mfsNumber feedback levels studentId teacherId teamId "
+    let users = await User.find({ email: { $in: req.body.emails } }).select("name email number role attendance avatar points studiedSchool mfsNumber feedback levels studentId teacherId teamId Department joiningDate studiedSchool"
     ).populate("Course").populate("studentPayment")
 
 
@@ -1210,6 +1248,7 @@ module.exports = {
   getStudentByID,
   verifyEmail,
   getStudentByStudentId,
-  getSingleUserHome
+  getSingleUserHome,
+  updateCart
 
 };

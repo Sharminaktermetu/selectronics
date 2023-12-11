@@ -1,19 +1,15 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
- 
-  // mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority
- await mongoose
-    .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
+  
+  mongoose
+    .connect(
+      `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {
-        
-        bufferCommands: false,
-        // bufferTimeoutMS: 0,
         useNewUrlParser: true,
-        useUnifiedTopology: true
+        useUnifiedTopology: true,
       }
     )
-    
     .then(() => console.log("connected successfully"))
   .catch((error) => console.log(error));
 };

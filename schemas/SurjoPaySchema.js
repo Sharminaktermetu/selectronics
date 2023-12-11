@@ -54,7 +54,8 @@ const SurjoPaySchema = mongoose.Schema(
         bank_trx_id: {
             type:String,
            
-        },
+        }
+        ,
         invoice_no: {
             type:String,
           
@@ -120,8 +121,6 @@ const SurjoPaySchema = mongoose.Schema(
             type:String,
            
         },
-        sslCommerzField1: { type: String },
-        sslCommerzField2: { type: String },
       
   }
 );

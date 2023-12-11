@@ -2,7 +2,6 @@ const asyncHandler = require('express-async-handler');
 const User = require('../schemas/userSchema');
 const Registration = require('../schemas//registrationSchema');
 const ObjectId = require('mongodb').ObjectId;
-
 const createRegistration = asyncHandler(async (req, res) => {
   try {
     console.log(req.body);
@@ -31,6 +30,30 @@ const RegistrationUpdate = asyncHandler(async (req, res) => {
 
     const UpdateReg = await Registration.updateOne(
       { 'user.email': email },
+      updatedInfo
+    );
+
+    res.status(200).json(UpdateReg);
+  } catch (error) {
+    res.status(400);
+    throw new Error(error.message);
+  }
+});
+
+
+const RegistrationUpdateById = asyncHandler(async (req, res) => {
+  try {
+    const id = req.params.id;    
+    const data = req.body;
+      console.log(id)
+    const updatedInfo = {
+      $set: {
+        ...data,
+      },
+    };
+
+    const UpdateReg = await Registration.updateOne(
+      { _id: ObjectId(id) },
       updatedInfo
     );
 
@@ -113,4 +136,6 @@ module.exports = {
   getSingleUserReg,
   SingleUserRegDelete,
   getSingleUserRegId,
+ RegistrationUpdateById 
+
 };

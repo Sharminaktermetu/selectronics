@@ -15,13 +15,13 @@ const checkLogin = async(req, res, next) => {
 
             req.user = await User.findById(decoded.id).select("-password");
 
-
+                console.log(req.user)
             next()
         }
 
 
     } catch(err) {
-         
+         console.log(err)
         res.status(201).json({
             message:"not authorized "
         });
@@ -55,7 +55,7 @@ const student = (req, res, next) => {
         next();
     } else {
         res.status(201).json({
-            message:"not authorized as teacher"
+            message:"not authorized as student"
         });
        
     }

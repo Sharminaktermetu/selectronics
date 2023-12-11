@@ -38,7 +38,7 @@ const courseSchema = mongoose.Schema({
     default: false,
   },
   article: {
-    type: String,
+    type: Number,
   },
   medium: {
     type: String,
@@ -50,19 +50,13 @@ const courseSchema = mongoose.Schema({
     type: String,
   },
   teacherInfo: Array,
-  courseTime:String,
-  courseSeat:String,
-  courseDay:String,
+
   salePrice: {
     type: Number,
   },
   price: {
     type: Number,
   },
-  banPrice:String,
-  banSalePrice:String,
-  studentTotal:String,
-        teacherName:String,
   description: String,
   PromoCode:String,
   PromoPercentage:Number,

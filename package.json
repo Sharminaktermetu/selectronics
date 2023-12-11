@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+
   "scripts": {
     "start": "node index.js",
     "start-dev": "nodemon index.js",
     "start-nodemon": "nodemon ./index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:digitalocean": "yarn install --production=false && yarn run build && rm -rf node_modules && yarn install --production --frozen-lockfile"
   },
   "author": "",
   "license": "ISC",
@@ -19,18 +21,22 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "ejs": "^3.1.8",
-    "express": "^4.18.1",
+    "express": "^4.18.2",
     "express-async-handler": "^1.1.4",
     "express-fileupload": "^1.4.0",
+    "express-session": "^1.17.3",
     "form-data": "^4.0.0",
+    "http-proxy-middleware": "^2.0.6",
     "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.21",
-    "mongoose": "^8.0.2",
+    "memorystore": "^1.6.7",
+    "mongoose": "^6.3.4",
+    "node-fetch": "^2.6.1",
     "nodemailer": "^6.7.5",
     "nodemon": "^2.0.16",
-    "otp-generator": "^4.0.1",
     "request-promise": "^4.2.6",
+    "shurjopay": "^0.12.1",
     "socket.io": "^4.5.1",
-    "sslcommerz-lts": "^1.1.0"
+    "sslcommerz-lts": "^1.1.0",
+    "uuid": "^9.0.0"
   }
 }
