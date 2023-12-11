@@ -60,7 +60,7 @@ const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
 const store= new session.MemoryStore()
-const newuserRouter =('../routeHandler/newuserHandler.js')
+
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
 
@@ -174,7 +174,6 @@ app.use('/subscriber', comingSoonSubscriberHandler);
 app.use('/add', addHandler);
 app.use('/bkash',bkashHandler)
 app.use("/img", imageHandler);
-app.use("/create-user", newuserRouter);
 app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);

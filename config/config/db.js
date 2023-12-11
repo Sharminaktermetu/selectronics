@@ -4,7 +4,7 @@ const connectDB = async () => {
   
   mongoose
     .connect(
-      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASS}@cluster0.h3eis.mongodb.net/?retryWrites=true&w=majority`,
+      `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,

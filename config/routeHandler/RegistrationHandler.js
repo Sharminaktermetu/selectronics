@@ -8,7 +8,7 @@ const {
   getSingleUserRegId,
   RegistrationUpdateById 
 } = require('../controllers/RegistrationController');
-// const { admin, checkLogin } = require('../middlewares/checkLogin');
+const { admin, checkLogin } = require('../middlewares/checkLogin');
 const router = express.Router();
 
 router.route('/').post(createRegistration).get(getAllRegistration);

@@ -9,7 +9,7 @@ const createCourse = asyncHandler(async (req, res) => {
     const newCourse = await Course.create({
       ...req.body,
     });
-    console.log(newCourse);
+
     res.status(200).json({
       success: true,
       message: 'Course created Successfully',
@@ -45,14 +45,6 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'rank',
         'courseType',
         'review',
-        'courseTime',
-        'courseSeat',
-        'courseDay',
-        'banPrice',
-        'banSalePrice',
-        'studentTotal',
-        'teacherName',
-
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -88,13 +80,6 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseType',
         'review',
         'visibility',
-        'courseTime',
-        'courseSeat',
-        'courseDay',
-        'banPrice',
-        'banSalePrice',
-        'studentTotal',
-        'teacherName',
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -201,10 +186,6 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'teacherInfo',
       'medium',
       'rank',
-      'banPrice',
-      'banSalePrice',
-      'studentTotal',
-        'teacherName',
     ]);
 
     res.status(201).json({

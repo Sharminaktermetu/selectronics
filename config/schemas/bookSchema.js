@@ -14,10 +14,6 @@ const bookSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  banPrice:String,
-  banSalePrice:String,
-  studentTotal:String,
-  teacherName:String,
   page: {
     type: String,
     required: true,
