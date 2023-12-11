@@ -49,12 +49,10 @@ const courseSchema = mongoose.Schema({
   level: {
     type: String,
   },
+  teacherInfo: Array,
   courseTime:String,
   courseSeat:String,
   courseDay:String,
-  
-  teacherInfo: Array,
-
   salePrice: {
     type: Number,
   },
@@ -63,10 +61,8 @@ const courseSchema = mongoose.Schema({
   },
   banPrice:String,
   banSalePrice:String,
-  banSalePrice:String,
   studentTotal:String,
   teacherName:String,
-
   description: String,
   PromoCode:String,
   PromoPercentage:Number,

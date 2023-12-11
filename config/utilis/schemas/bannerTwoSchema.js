@@ -1,76 +1,68 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const bookSchema = mongoose.Schema({
-  title: {
+const bannerTwoEngSchema = mongoose.Schema({
+  heading: {
     type: String,
     required: true,
   },
-  price: {
+  list1: {
     type: String,
     required: true,
   },
-  salePrice: {
+  list2: {
     type: String,
     required: true,
   },
-  banPrice:String,
-  banSalePrice:String,
-  studentTotal:String,
-  teacherName:String,
-  page: {
+  list3: {
     type: String,
     required: true,
   },
-  interactive: {
-    type: String,
-    required: true,
-  },
-  format: {
-    type: String,
-    required: true,
-  },
-  fileSize: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  faq: {
-    type: String,
-    required: true,
-  },
-  courseCategory: {
-    type: Array,
-    required: true,
-  },
-  // tags: {
-  //   type: Array,
-  //   required: [true, 'Please provide Tag of the book'],
-  // },
 
-  author: {
-    type: Array,
-    required: [true, 'Please provide Tag of the book'],
-  },
-  image1: {
+  subheading: {
     type: String,
     required: true,
   },
-  image2: {
+  text: {
     type: String,
     required: true,
   },
-  image3: {
-    type: String,
-    required: true,
-  },
-  fileLink: {
+  image: {
     type: String,
     required: true,
   },
 });
 
-module.exports = bookSchema;
+const bannerTwoBngSchema = mongoose.Schema({
+  heading: {
+    type: String,
+    required: true,
+  },
+  list1: {
+    type: String,
+    required: true,
+  },
+  list2: {
+    type: String,
+    required: true,
+  },
+  list3: {
+    type: String,
+    required: true,
+  },
+
+  subheading: {
+    type: String,
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+});
+
+module.exports = { bannerTwoEngSchema, bannerTwoBngSchema };

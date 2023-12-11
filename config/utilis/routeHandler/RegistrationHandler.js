@@ -6,15 +6,12 @@ const {
   RegistrationUpdate,
   SingleUserRegDelete,
   getSingleUserRegId,
-  RegistrationUpdateById 
 } = require('../controllers/RegistrationController');
-// const { admin, checkLogin } = require('../middlewares/checkLogin');
 const router = express.Router();
 
 router.route('/').post(createRegistration).get(getAllRegistration);
 router.route('/:email').get(getSingleUserReg).put(RegistrationUpdate);
 router.route('/singleId/:id').get(getSingleUserRegId);
-router.route('/update/:id').put(RegistrationUpdateById)
 
 router.route('/delete/:id').delete(SingleUserRegDelete);
 
