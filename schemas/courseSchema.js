@@ -23,6 +23,18 @@ const courseSchema = mongoose.Schema({
   durationHr: {
     type: String,
   },
+  courseTime: {
+    type: String,
+  },
+  courseSeat: {
+    type: String,
+  },
+  courseDay: {
+    type: String,
+  },
+  singleHighlighter: {
+    type: String,
+  },
   rank: {
     type: String,
   },
