@@ -152,35 +152,28 @@ const courseUpdate = asyncHandler(async (req, res) => {
 //     });
 //   }
 // });
+
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const title = req.params.title; // Assuming the title is passed as a parameter
+    const title = req.params.title;
     const course = await Course.findOne({ title: title }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
     });
-
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        error: 'Course not found',
-      });
-    }
-
     console.log(course);
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       data: course,
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({
-      success: false,
-      error: 'Internal Server Error',
+    res.status(401).json({
+      error: 'Something error, can not get user data',
     });
   }
 });
+
+
 
 //get single course for student
 const getSingleCourseforStudent = asyncHandler(async (req, res) => {
