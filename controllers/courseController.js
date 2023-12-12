@@ -133,22 +133,51 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 // get single course
 
+// const getSingleCourse = asyncHandler(async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const course = await Course.findOne({ _id: ObjectId(id) }).select({
+//       'curriculum.lessons.quizes': 0,
+//       'curriculum.lessons.video': 0,
+//       'curriculum.lessons.note': 0,
+//     });
+//     console.log(course);
+//     res.status(201).json({
+//       success: true,
+//       data: course,
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       error: 'Something error, can not get user data',
+//     });
+//   }
+// });
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id) }).select({
+    const title = req.params.title; // Assuming the title is passed as a parameter
+    const course = await Course.findOne({ title: title }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
     });
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        error: 'Course not found',
+      });
+    }
+
     console.log(course);
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       data: course,
     });
   } catch (error) {
-    res.status(401).json({
-      error: 'Something error, can not get user data',
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal Server Error',
     });
   }
 });
