@@ -134,7 +134,6 @@ app.use('/classRoom', classRoomHandler);
 app.use('/comingSoon', comingSoonHandler);
 app.use('/communityPost', communityPostHandler);
 app.use('/category', categoryHandler);
-app.use('/faq', faqHandler);
 app.use('/user', userHandler);
 app.use('/api/v1/reviews', reviewHandler);
 
@@ -179,23 +178,7 @@ app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
-// ************************************************************************
 
-
-
-
-
-app.get("/bkash-search", async (req, res) => {
-  try {
-    const { trxID } = req.query
-    const result = await searchTransaction(bkashConfig, trxID)
-    res.send(result)
-  } catch (e) {
-    console.log(e)
-  }
-})
-
-// ************************************************************************
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
