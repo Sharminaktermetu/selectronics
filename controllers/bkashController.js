@@ -6,181 +6,71 @@ let sess;
 const User = require("../schemas/userSchema");
 const Payment = require('../schemas/SurjoPaySchema');
 const currentDate = require('../utilis/getCurrentDate');
+const { createPayment, executePayment, queryPayment, searchTransaction, refundTransaction } = require('bkash-payment');
+const { bkashConfig } = require('../config/bkashConfig');
 
-const bkashToken = async() => {
-    try{
-     const tokenResponse = await fetch(
-         `${process.env.Bkash_Root}/checkout/token/grant`,
-         {
-           method: "POST",
-           headers: {
-             "Content-Type": "application/json",
-             Accept: "application/json",
-             username: process.env.Bkash_USER_NAME,
-             password: process.env.Bkash_PASSWORD,
-           },
-           body: JSON.stringify({
-             app_key: process.env.Bkash_KEY,
-             app_secret: process.env.Bkash_SECRET,
-           }),
-         }
-       );
-       const tokenResult = await tokenResponse.json();
-      return tokenResult.id_token;
-    }catch(e){
-     console.log(e);
+
+const createBPayment=asyncHandler(async (req, res) => {
+  try {
+    const { amount, callbackURL, orderID, reference } = req.body
+    const paymentDetails = {
+      amount: amount || 10,                                                 // your product price
+      callbackURL: callbackURL || 'http://localhost:8000/bkash/bkash-callback',  // your callback route 
+      orderID: orderID || 'Order_101',                                     // your orderID
+      reference: reference || '1'                                          // your reference
     }
- };
-
-
-
-const createPayment=asyncHandler(async (req, res) => {
-    try{
-
-   
-        const token = await bkashToken();
-        const cart=req.user.cartDetails
-        sess=req.session
-        sess.email=req.user.email
-        sess.token=token
-      
-        const createResopnse = await fetch(
-          `${process.env.Bkash_Root}/checkout/payment/create`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              authorization: token,
-              "x-app-key": process.env.Bkash_KEY,
-            },
-            body: JSON.stringify({
-              amount: cart.medium==="Private" ? cart.method.price : cart.salePrice, // amount should be dynamic
-              currency: "BDT",
-              intent: "sale",
-              merchantInvoiceNumber: uuidv4().slice(0,8), // should be unique number
-            }),
-          }
-        );
-        const createResult = await createResopnse.json();
-       
-       
-        res.send(createResult);
-    }catch(e){
-        console.log(e);
-    }
+    const result = await createPayment(bkashConfig, paymentDetails)
+    console.log(result);
+    res.send(result)
+  } catch (e) {
+    console.log(e)
+  }
   });
 
 
-  const executePayment=asyncHandler(async (req, res) => {
-    try{
-        const paymentID = req.body.paymentID;
-        console.log(sess)
-  
-        const executeResponse = await fetch(
-          `${process.env.Bkash_Root}/checkout/payment/execute/${paymentID}`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              authorization: sess?.token,
-              "x-app-key": process.env.Bkash_KEY,
-            },
-            body: JSON.stringify({
-              paymentID
-            }),
-          }
-        );
-        const executeResult = await executeResponse.json();
-
-      
-        if (executeResult && executeResult.paymentID != null) { 
-           
-          // adding the course into user id
-
-          User.findOne({ email: sess.email }).exec(async(error,data)=>{
-             if(error) return res.status(400).json({status:false,error})
-                // storing payment
-             var newPayment = await Payment.create({
-              order_id:executeResult.paymentID,
-              amount:executeResult.amount,
-              bank_trx_id:executeResult.trxID,
-              invoice_no:executeResult.merchantInvoiceNumber,
-              customer_order_id:data.cartDetails._id,
-              name:data.name,
-              email:data.email,
-              sp_massage:"success",
-              date_time:currentDate(),
-              city:data.cartDetails.medium==="private" ? `${data.cartDetails.method.title}- ${data.cartDetails.method.selectedData}(monthly)`:"Full-payment",
-              method:"bkash_merchant"
-
-             });
-
-             console.log(newPayment)
-
-             const user = await User.find({ role: "student" })
-             let studentId = 100 + user?.length + 1
-             studentId = "QUS" + studentId
-
-           
-
-             if (!data.Course.includes(data.cartDetails._id)) {
+  const executeBPayment=(async (req, res) => {
+   console.log(req.query);
+      try {
+        const { status, paymentID } = req.query
+        let result
+        let response = {
+          statusCode: '4000',
+          statusMessage: 'Payment Failed'
+        }
+        if (status === 'success') result = await executePayment(bkashConfig, paymentID)
     
-             await User.findOneAndUpdate({ email: data?.email }, {
-                  $push: {
-                      Course: data.cartDetails._id,
-                      studentPayment: newPayment?._id
-                  },
-                  $set: {
-                      role: "student",
-                      studentId: studentId,
-                      cartDetails:{},
-                      enrolledDate: currentDate()
-
-                  }
-              },
-                  {
-                      new: true,
-                  }
-              );
-
-          } else {
-               await User.findOneAndUpdate({ email: newPayment?.email }, {
-                  $push: {
-                      studentPayment: newPayment._id
-                  },
-                  $set: {    
-                    cartDetails:{}               
-                }
-              },
-                  {
-                      new: true,
-                  }
-              );
-          }
-
-             res.send(executeResult);
-
-          })
-          
-         
-        } else { 
-          return res.json({status:false,error:executeResult})
-        } 
-        
+        if (result?.transactionStatus === 'Completed') {
+          // payment success 
+          // insert result in your db 
+          res.redirect('http://localhost:3000/check-out/done');
+          return; 
+        }
        
-    }catch(e){
-        res.json({status:false,error:e})
-    }
+          else {
+ 
+            res.redirect('http://localhost:3000/check-out/failed');
+            return; 
+          }
+      
+        
+        // if (result) response = {
+        //   statusCode: result?.statusCode,
+        //   statusMessage: result?.statusMessage
+        // }
+        // // You may here use WebSocket, server-sent events, or other methods to notify your client
+        // res.send(response)
+      } catch (e) {
+        console.log(e)
+      }
+    
   });
 
 
 
 
   module.exports = {
-    createPayment,
-    executePayment
+    createBPayment,
+    executeBPayment
   };
 
 

@@ -1,10 +1,10 @@
 const express = require('express');
-const { createPayment, executePayment } = require('../controllers/bkashController');
+const { createBPayment, executeBPayment } = require('../controllers/bkashController');
 const router = express.Router();
 const {checkLogin,admin}=require('../middlewares/checkLogin')
 
-router.post('/create',checkLogin,createPayment)
-router.post('/execute',executePayment)
+router.post('/bkash-checkout',createBPayment)
+router.get('/bkash-callback',executeBPayment)
 
 
 module.exports = router;

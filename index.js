@@ -55,11 +55,11 @@ const registrationHandler = require('./routeHandler/RegistrationHandler');
 const achievementHandler = require('./routeHandler/achievementHandler');
 const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriberHandler');
 const addHandler = require('./routeHandler/addHandler');
-const bkashHandler=require('./routeHandler/bkashHandler')
+const bkashHandler = require('./routeHandler/bkashHandler')
 const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
-const store= new session.MemoryStore()
+const store = new session.MemoryStore()
 
 /* DB connection and middleware and cors */
 const connectDB = require('./config/db');
@@ -67,6 +67,7 @@ const connectDB = require('./config/db');
 const port = process.env.PORT || 8080;
 const cors = require('cors');
 const crypto = require('crypto');
+const { bkashConfig } = require('./config/bkashConfig');
 
 
 app.use(express.json());
@@ -83,15 +84,15 @@ app.use(cors({
 dotenv.config();
 app.set('view engine', 'ejs');
 app.use(session({
-  
+
   // It holds the secret key for session
   secret: 'Secret_Key',
-  cookie:{maxAge:30000},
-  saveUninitialized:true,
-  resave:false,
+  cookie: { maxAge: 30000 },
+  saveUninitialized: true,
+  resave: false,
   store
 
-  
+
 }))
 
 // connecting mongodb
@@ -164,25 +165,41 @@ app.use('/leaderBoard', leaderBoardHandler);
 // 
 app.use('/sslpay', sslPay)
 // 
- app.use('/surjopay', shurjoPay);
+app.use('/surjopay', shurjoPay);
 app.use('/rooms', roomHandler);
 app.use('/chat', chatHandler);
 app.use('/message', messageHandler);
- app.use('/registration', registrationHandler);
+app.use('/registration', registrationHandler);
 app.use('/achievement', achievementHandler);
 app.use('/subscriber', comingSoonSubscriberHandler);
 app.use('/add', addHandler);
-app.use('/bkash',bkashHandler)
+app.use('/bkash', bkashHandler)
 app.use("/img", imageHandler);
 app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
+// ************************************************************************
 
+
+
+
+
+app.get("/bkash-search", async (req, res) => {
+  try {
+    const { trxID } = req.query
+    const result = await searchTransaction(bkashConfig, trxID)
+    res.send(result)
+  } catch (e) {
+    console.log(e)
+  }
+})
+
+// ************************************************************************
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ['https://qawmiuniversity.com','http://localhost:3000'],
+    origin: ['https://qawmiuniversity.com', 'http://localhost:3000'],
   },
 });
 
