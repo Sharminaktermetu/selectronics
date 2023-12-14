@@ -126,6 +126,9 @@ whatYouGet: [
       subtitle:String
     }
 ],
+courseForWhom:[
+  {title:String}
+],
   announcement: String,
   review:[{
     rate:Number,

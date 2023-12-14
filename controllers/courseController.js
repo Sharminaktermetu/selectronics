@@ -50,7 +50,8 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'courseDay',
         'singleHighlighter',
         'whatLearn',
-        'whatYouGet'
+        'whatYouGet',
+        'courseForWhom'
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -91,7 +92,8 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseDay',
         'singleHighlighter',
         'whatLearn',
-        'whatYouGet'
+        'whatYouGet',
+        'courseForWhom'
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -208,7 +210,8 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'courseDay',
       'singleHighlighter',
       'whatLearn',
-      'whatYouGet'
+      'whatYouGet',
+      'courseForWhom'
     ]);
 
     res.status(201).json({
