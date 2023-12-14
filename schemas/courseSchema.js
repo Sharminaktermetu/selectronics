@@ -119,6 +119,13 @@ const courseSchema = mongoose.Schema({
         uploadUrl: String,
     }
 ],
+whatYouGet: [
+    {
+      uploadUrl: String,
+      title: String,
+      subTitle:String
+    }
+],
   announcement: String,
   review:[{
     rate:Number,
