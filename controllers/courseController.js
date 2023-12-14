@@ -137,8 +137,8 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id) }).select({
+    const title = req.params.title;
+    const course = await Course.findOne({title: title }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
@@ -162,8 +162,8 @@ const getSingleCourse = asyncHandler(async (req, res) => {
 //get single course for student
 const getSingleCourseforStudent = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id) }).select([
+    const title = req.params.title;
+    const course = await Course.findOne({ title: title}).select([
       '_id',
       'title',
       'subTitle',
@@ -220,8 +220,8 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
 
 const getSingleForAdmin = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id) });
+    const title = req.params.title;
+    const course = await Course.findOne({ title:title });
 
     res.status(201).json({
       success: true,
@@ -241,9 +241,9 @@ const getManyByFilter = asyncHandler(async (req, res) => {
     const getMany = req.body;
 
     const courses = await Course.find({
-      _id: {
-        $in: req?.body?.courseId.map((id) =>
-          mongoose.Types.ObjectId(id.trim())
+      title: {
+        $in: req?.body?.courseId.map((title) =>
+          mongoose.Types(title.trim())
         ),
       },
     })
@@ -267,7 +267,7 @@ const getManyByFilter = asyncHandler(async (req, res) => {
 
 const deleteCourse = asyncHandler(async (req, res) => {
   try {
-    const deleteBlog = await Course.findByIdAndDelete({ _id: req.params.id });
+    const deleteBlog = await Course.findByIdAndDelete({ title: req.params.title});
     res.status(200).json(deleteBlog);
   } catch (error) {
     res.status(500).json({
@@ -295,8 +295,8 @@ const getCourseForTeacher = asyncHandler(async (req, res) => {
 
 const likeUpdate = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const data = await Course.findOne({ _id: id });
+    const title = req.params.title;
+    const data = await Course.findOne({ title: title });
     data.likes.push(req.body.n);
     data.save();
 
