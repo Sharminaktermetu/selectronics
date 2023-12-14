@@ -113,9 +113,12 @@ const courseSchema = mongoose.Schema({
   //     }
   // ],
   FAQ: [{ category: String, question: String, answer: String }],
-  whatlearn: [{
-    type:String
-  }],
+  whatlearn: [
+    {
+        title: String,
+        uploadUrl: String,
+    }
+],
   announcement: String,
   review:[{
     rate:Number,
