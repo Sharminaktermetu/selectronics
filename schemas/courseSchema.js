@@ -113,7 +113,7 @@ const courseSchema = mongoose.Schema({
   //     }
   // ],
   FAQ: [{ category: String, question: String, answer: String }],
-  whatlearn: [
+  whatLearn: [
     {
         title: String,
         uploadUrl: String,
