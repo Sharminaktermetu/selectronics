@@ -89,6 +89,7 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseSeat',
         'courseDay',
         'singleHighlighter',
+        'whatlearn'
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -136,9 +137,9 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const id = req.params;
-    
-    const course = await Course.findOne({ _id: ObjectId(id) }).select({
+    const title = req.params.title;
+    console.log(title);
+    const course = await Course.findOne({ title}).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
@@ -204,6 +205,7 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'courseSeat',
       'courseDay',
       'singleHighlighter',
+      'whatlearn'
     ]);
 
     res.status(201).json({
