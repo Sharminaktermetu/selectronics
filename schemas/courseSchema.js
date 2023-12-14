@@ -123,7 +123,7 @@ whatYouGet: [
     {
       uploadUrl: String,
       title: String,
-      subTitle:String
+      subtitle:String
     }
 ],
   announcement: String,
