@@ -126,6 +126,13 @@ whatYouGet: [
       subtitle:String
     }
 ],
+courseWhy: [
+    {
+      uploadUrl: String,
+      title: String,
+      subtitle:String
+    }
+],
 courseForWhom:[
   {title:String}
 ],
