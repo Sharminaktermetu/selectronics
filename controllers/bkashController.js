@@ -14,7 +14,7 @@ const createBPayment=asyncHandler(async (req, res) => {
     const { amount, callbackURL, orderID, reference } = req.body
     const paymentDetails = {
       amount: amount || 10,                                                 // your product price
-      callbackURL: callbackURL || 'http://localhost:8000/bkash/bkash-callback',  // your callback route 
+      callbackURL: callbackURL || 'https://api.qawmiuniversity.com/bkash/bkash-callback',  // your callback route 
       orderID: orderID || 'Order_101',                                     // your orderID
       reference: reference || '1'                                          // your reference
     }
@@ -42,7 +42,7 @@ const createBPayment=asyncHandler(async (req, res) => {
         if (result?.statusCode !== '0000') {
             // Send JSON response for failure
             
-            res.redirect('http://localhost:3000/check-out/failed');
+            res.redirect('https://qawmiuniversity.com/check-out/failed');
             return;
         }
     }
@@ -60,10 +60,10 @@ const createBPayment=asyncHandler(async (req, res) => {
         console.log(paymentData,paymentRecord);
   
         // console.log(paymentRecord, 'from line 55');
-        res.redirect('http://localhost:3000/check-out/done');
+        res.redirect('https://qawmiuniversity.com/check-out/done');
         return;
       } else {
-        res.redirect('http://localhost:3000/check-out/failed');
+        res.redirect('https://qawmiuniversity.com/check-out/failed');
         return;
       }
 
