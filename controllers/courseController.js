@@ -6,14 +6,19 @@ const ObjectId = require('mongodb').ObjectId;
 
 const createCourse = asyncHandler(async (req, res) => {
   try {
+    const slug = req.body.title.toLowerCase().replace(/ /g, '-');
     const newCourse = await Course.create({
       ...req.body,
+      slug: slug,
     });
+    // const newCourse = await Course.create({
+    //   ...req.body,
+    // });
 
     res.status(200).json({
       success: true,
       message: 'Course created Successfully',
-      course: newCourse
+      course:newCourse
     });
   } catch (error) {
     res.status(500).json({
@@ -48,11 +53,10 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'courseTime',
         'courseSeat',
         'courseDay',
-        'singleHighlighter',
-        'whatLearn',
-        'whatYouGet',
-        'courseForWhom',
-        'courseWhy'
+        'banPrice',
+        'banSalePrice',
+        'studentTotal',
+        'teacherName'  
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -91,11 +95,8 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseTime',
         'courseSeat',
         'courseDay',
-        'singleHighlighter',
-        'whatLearn',
-        'whatYouGet',
-        'courseForWhom',
-        'courseWhy'
+        'banPrice',
+        'banSalePrice'
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -143,9 +144,8 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const title = req.params.title;
-    console.log(title);
-    const course = await Course.findOne({ title:title }).select({
+    const id = req.params.id;
+    const course = await Course.findOne({ _id: ObjectId(id) }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
@@ -161,10 +161,6 @@ const getSingleCourse = asyncHandler(async (req, res) => {
     });
   }
 });
-
-
-
-
 
 //get single course for student
 const getSingleCourseforStudent = asyncHandler(async (req, res) => {
@@ -207,14 +203,10 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'teacherInfo',
       'medium',
       'rank',
-      'courseTime',
-      'courseSeat',
-      'courseDay',
-      'singleHighlighter',
-      'whatLearn',
-      'whatYouGet',
-      'courseForWhom',
-      'courseWhy'
+      'banPrice',
+      'banSalePrice',
+      'studentTotal',
+        'teacherName'
     ]);
 
     res.status(201).json({
