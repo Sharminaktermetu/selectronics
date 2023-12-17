@@ -144,8 +144,8 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
-    const title = req.params.title;
-    const course = await Course.findOne({ title: (title) }).select({
+    const id = req.params.id;
+    const course = await Course.findOne({ _id: ObjectId(id) }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
