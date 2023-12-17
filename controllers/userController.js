@@ -796,12 +796,6 @@ const getManyByFilter = asyncHandler(async (req, res) => {
     let users = await User.find({ email: { $in: req.body.emails } }).select("name email number role attendance avatar points studiedSchool mfsNumber feedback levels studentId teacherId teamId Department joiningDate studiedSchool"
     ).populate("Course").populate("studentPayment")
 
-
-
-
-    
-
-
     res.status(201).json({
       success: true,
       data: users,
@@ -1162,7 +1156,7 @@ const filterByCoursePurchasing = asyncHandler(async (req, res) => {
   try {
 
     
-    const users = await User.find({ Course: { $in: [req.params.id] } }).select("-password");
+    const users = await User.find({ Course: { $in: [req.params.title] } }).select("-password");
 
     
     // const filteredUser = users.filter(user => {
