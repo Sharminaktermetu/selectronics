@@ -11,11 +11,11 @@ const {
 const { admin, checkLogin } = require('../middlewares/checkLogin');
 const router = express.Router();
 
-router.route('/').post(checkLogin,createRegistration).get(getAllRegistration);
-router.route('/:email').get(checkLogin,getSingleUserReg).put(checkLogin,RegistrationUpdate);
-router.route('/singleId/:id').get(checkLogin,getSingleUserRegId);
-router.route('/update/:id').put(checkLogin,RegistrationUpdateById)
+router.route('/').post(createRegistration).get(getAllRegistration);
+router.route('/:email').get(getSingleUserReg).put(RegistrationUpdate);
+router.route('/singleId/:id').get(getSingleUserRegId);
+router.route('/update/:id').put(RegistrationUpdateById)
 
-router.route('/delete/:id').delete(checkLogin,SingleUserRegDelete);
+router.route('/delete/:id').delete(SingleUserRegDelete);
 
 module.exports = router;
