@@ -74,6 +74,86 @@ const getAllRegistration = asyncHandler(async (req, res) => {
     throw new Error(error.message);
   }
 });
+const getTeacherApplication = asyncHandler(async (req, res) => {
+  try {
+    const { page = 1, pageSize = 10 } = req.query;
+
+    const skip = (page - 1) * pageSize;
+
+    const messages = await Registration.aggregate([
+      { $match: { regType: "teacher-application" } },
+      {
+        $project: {
+          phoneNumber: 1,
+          address: 1,
+          age: 1,
+          'user': 1,
+          teacherInfo: 1
+        }
+      },
+      { $skip: skip },
+      { $limit: parseInt(pageSize) }
+    ]);
+
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+const getTeacherFinal= asyncHandler(async (req, res) => {
+  try {
+    const { page = 1, pageSize = 10 } = req.query;
+
+    const skip = (page - 1) * pageSize;
+
+    const messages = await Registration.aggregate([
+      { $match: { regType: "teacher-final" } },
+      {
+        $project: {
+          phoneNumber: 1,
+          address: 1,
+          age: 1,
+          'user': 1,
+          teacherInfo: 1
+        }
+      },
+      { $skip: skip },
+      { $limit: parseInt(pageSize) }
+    ]);
+
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+const getTeacherInterview= asyncHandler(async (req, res) => {
+  try {
+    const { page = 1, pageSize = 10 } = req.query;
+
+    const skip = (page - 1) * pageSize;
+
+    const messages = await Registration.aggregate([
+      { $match: { regType: "teacher-interview" } },
+      {
+        $project: {
+          phoneNumber: 1,
+          address: 1,
+          age: 1,
+          'user': 1,
+          teacherInfo: 1
+        }
+      },
+      { $skip: skip },
+      { $limit: parseInt(pageSize) }
+    ]);
+
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
 
 const getSingleUserReg = asyncHandler(async (req, res) => {
   try {
@@ -136,6 +216,8 @@ module.exports = {
   getSingleUserReg,
   SingleUserRegDelete,
   getSingleUserRegId,
- RegistrationUpdateById 
-
+ RegistrationUpdateById,
+ getTeacherApplication,
+ getTeacherFinal,
+ getTeacherInterview
 };
