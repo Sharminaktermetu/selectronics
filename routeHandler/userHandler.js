@@ -2,7 +2,17 @@ const express=require('express')
 const { default: mongoose } = require('mongoose')
 
 
-const {registerUser, loginUser, forgotPassword, resetPassword, updateUser, getUserInfo, deleteUser, getSingleUserInfo, getAllUser,getAssignmentMarks, getSingleUserAssignmentMarks, pushQuizMarks, getManyByFilter,getUserByRole,getSingleUserQuiz, pushQuestionMarks, getSingleUserQuestionMarks,pushFeedback,updateAttendance, updatePoint, filterByCoursePurchasing, getUserBySearch,persistUser, getStudentByID,updateLevels, verifyEmail, getStudentByStudentId, getSingleUserHome, updateCart} = require('../controllers/userController')
+const {registerUser, loginUser, 
+    forgotPassword, resetPassword, 
+    updateUser, getUserInfo, deleteUser, 
+    getSingleUserInfo, getAllUser,getAssignmentMarks,
+     getSingleUserAssignmentMarks, pushQuizMarks, 
+     getManyByFilter,getUserByRole,getSingleUserQuiz, pushQuestionMarks,
+      getSingleUserQuestionMarks,pushFeedback,updateAttendance, updatePoint,
+       filterByCoursePurchasing, getUserBySearch,persistUser,
+        getStudentByID,updateLevels, verifyEmail, 
+        getStudentByStudentId, getSingleUserHome, 
+        updateCart} = require('../controllers/userController')
 
 
 const router=express.Router()

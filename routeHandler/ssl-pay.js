@@ -6,7 +6,7 @@ const { v4: uuid } = require("uuid");
 const Payment = require('../schemas/SurjoPaySchema');
 const store_id = 'qawmiuniversity0live';
 const store_passwd ="6548F3072FE1D36902"
-// const PaymentSSL =require('../schemas/sslPaySchema')
+const PaymentSSL =require('../schemas/sslPaySchema')
 // const store_id = 'sslin6540f8f222862'
 // const store_passwd = 'sslin6540f8f222862@ssl'
 
@@ -19,7 +19,7 @@ router.post('/ssl-request', (req, res) => {
         total_amount: paymentData?.amount,
         currency: paymentData.currency,
         tran_id: tran_id, // use unique tran_id for each api call
-        success_url: `https://qawmiuniversity.com/check-out/done`,
+        success_url: `https://qawmiuniversity.com/payment-successful`,
         fail_url: 'https://qawmiuniversity.com/check-out/failed',
         cancel_url: 'https://qawmiuniversity.com/*',
         ipn_url: 'https://qawmiuniversity.com/ipn',

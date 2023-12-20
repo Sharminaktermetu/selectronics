@@ -92,6 +92,7 @@ const getTeacherApplication = asyncHandler(async (req, res) => {
           updatedAt:1
         }
       },
+      { $sort: { updatedAt: -1 } },
       { $skip: skip },
       { $limit: parseInt(pageSize) }
     ]);
@@ -102,7 +103,34 @@ const getTeacherApplication = asyncHandler(async (req, res) => {
   }
 });
 
-const getTeacherFinal= asyncHandler(async (req, res) => {
+// const getTeacherFinal= asyncHandler(async (req, res) => {
+//   try {
+//     const { page = 1, pageSize = 10 } = req.query;
+
+//     const skip = (page - 1) * pageSize;
+
+//     const messages = await Registration.aggregate([
+//       { $match: { regType: "teacher-final" } },
+//       {
+//         $project: {
+//           phoneNumber: 1,
+//           address: 1,
+//           age: 1,
+//           'user': 1,
+//           teacherInfo: 1,
+//           updatedAt:1
+//         }
+//       },
+//       { $skip: skip },
+//       { $limit: parseInt(pageSize) }
+//     ]);
+
+//     res.json(messages);
+//   } catch (error) {
+//     res.status(400).json({ error: error.message });
+//   }
+// });
+const getTeacherFinal = asyncHandler(async (req, res) => {
   try {
     const { page = 1, pageSize = 10 } = req.query;
 
@@ -117,9 +145,10 @@ const getTeacherFinal= asyncHandler(async (req, res) => {
           age: 1,
           'user': 1,
           teacherInfo: 1,
-          updatedAt:1
+          updatedAt: 1
         }
       },
+      { $sort: { updatedAt: -1 } }, // Sort by updatedAt in descending order
       { $skip: skip },
       { $limit: parseInt(pageSize) }
     ]);
@@ -129,6 +158,7 @@ const getTeacherFinal= asyncHandler(async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 });
+
 const getTeacherInterview= asyncHandler(async (req, res) => {
   try {
     const { page = 1, pageSize = 10 } = req.query;
@@ -147,6 +177,7 @@ const getTeacherInterview= asyncHandler(async (req, res) => {
           updatedAt:1
         }
       },
+      { $sort: { updatedAt: -1 } },
       { $skip: skip },
       { $limit: parseInt(pageSize) }
     ]);

@@ -789,7 +789,7 @@ const getSingleUserInfo = asyncHandler(async (req, res) => {
 const getManyByFilter = asyncHandler(async (req, res) => {
   try {
     
-    let users = await User.find({ email: { $in: req.body.emails } }).select("name email number role attendance avatar points studiedSchool mfsNumber feedback levels studentId teacherId teamId Department joiningDate studiedSchool"
+    let users = await User.find({ email: { $in: req.body.emails} }).select("name email number role attendance avatar points studiedSchool mfsNumber feedback levels studentId teacherId teamId Department joiningDate studiedSchool"
     ).populate("Course").populate("studentPayment")
 
 
