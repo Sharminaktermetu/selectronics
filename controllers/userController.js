@@ -648,8 +648,7 @@ console.log(req.body.email)
 // update cart for purchase
 const updateCart = asyncHandler(async (req, res) => {
   try {
-    
-
+  
     const id=req.user._id
 
     const updatedInfo = {
@@ -658,9 +657,6 @@ const updateCart = asyncHandler(async (req, res) => {
 
       },
     };
-
-
-
 
     const data = await User.updateOne(
       { _id: ObjectId(id) },

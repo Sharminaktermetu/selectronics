@@ -4,12 +4,7 @@ const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 
 /* import handler */
-// // // // // // 
-
-
-// 
 const courseHandler = require('./routeHandler/courseHandler');
-
 const blogHandler = require('./routeHandler/BlogsHandler');
 
 const userHandler = require('./routeHandler/userHandler');
@@ -76,12 +71,8 @@ app.use(fileUpload({ tempFileDir: '/temp' }));
 app.use(cors({
   origin: "*",
 }));
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
 
-//   //  res.header("Access-Control-Allow-Origin", "http://localhost:3000"); or add your react app url.
-//   next();
-// });
+
 dotenv.config();
 app.set('view engine', 'ejs');
 app.use(session({
