@@ -29,11 +29,13 @@ const createCourse = asyncHandler(async (req, res) => {
 
 const getAllCourse = asyncHandler(async (req, res) => {
   try {
-    const courses = await Course.find({})
+    const courses = await Course.find({
+      courseType: 'final',
+      visibility: 'Public',
+    })
       .select([
         '_id',
         'title',
-        'engTitle',
         'image',
         'lesson',
         'durationHr',
@@ -54,12 +56,7 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'banPrice',
         'banSalePrice',
         'studentTotal',
-        'teacherName',  
-        'singleHighlighter',
-        'whatLearn',
-        'whatYouGet',
-        'courseForWhom',
-        'courseWhy'
+        'teacherName'  
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -80,7 +77,6 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
       .select([
         '_id',
         'title',
-        'engTitle',
         'image',
         'lesson',
         'durationHr',
@@ -100,13 +96,7 @@ const getAllCourseForAdmin = asyncHandler(async (req, res) => {
         'courseSeat',
         'courseDay',
         'banPrice',
-        'banSalePrice',
-        'singleHighlighter',
-        'studentTotal',
-        'whatLearn',
-        'whatYouGet',
-        'courseForWhom',
-        'courseWhy'
+        'banSalePrice'
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
 
@@ -155,7 +145,7 @@ const courseUpdate = asyncHandler(async (req, res) => {
 const getSingleCourse = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id)  }).select({
+    const course = await Course.findOne({ _id: ObjectId(id) }).select({
       'curriculum.lessons.quizes': 0,
       'curriculum.lessons.video': 0,
       'curriculum.lessons.note': 0,
@@ -170,19 +160,6 @@ const getSingleCourse = asyncHandler(async (req, res) => {
       error: 'Something error, can not get user data',
     });
   }
-  // try {
-  
-
-  //   const messages = await Course.aggregate([
-  //     { $match: { title:req.params.title } },
-  
-   
-  //   ]);
-
-  //   res.json(messages);
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
 });
 
 //get single course for student
@@ -194,7 +171,6 @@ const getSingleCourseforStudent = asyncHandler(async (req, res) => {
       'title',
       'subTitle',
       'curriculum',
-      'engTitle'
     ]);
 
     res.status(201).json({
@@ -217,7 +193,6 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
     const course = await Course.find(keyword).select([
       '_id',
       'title',
-      'engTitle',
       'image',
       'lesson',
       'durationHr',
@@ -231,13 +206,7 @@ const getCourseBySearch = asyncHandler(async (req, res) => {
       'banPrice',
       'banSalePrice',
       'studentTotal',
-      'teacherName',
-      'singleHighlighter',
-      
-        'whatLearn',
-        'whatYouGet',
-        'courseForWhom',
-        'courseWhy'
+        'teacherName'
     ]);
 
     res.status(201).json({
