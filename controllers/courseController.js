@@ -153,36 +153,36 @@ const courseUpdate = asyncHandler(async (req, res) => {
 // get single course
 
 const getSingleCourse = asyncHandler(async (req, res) => {
-  try {
-    const title = req.params.title;
-    const course = await Course.findOne({ title:title }).select({
-      'curriculum.lessons.quizes': 0,
-      'curriculum.lessons.video': 0,
-      'curriculum.lessons.note': 0,
-    });
-    console.log(course);
-    res.status(201).json({
-      success: true,
-      data: course,
-    });
-  } catch (error) {
-    res.status(401).json({
-      error: 'Something error, can not get user data',
-    });
-  }
   // try {
+  //   const title = req.params.title;
+  //   const course = await Course.findOne({ title:title }).select({
+  //     'curriculum.lessons.quizes': 0,
+  //     'curriculum.lessons.video': 0,
+  //     'curriculum.lessons.note': 0,
+  //   });
+  //   console.log(course);
+  //   res.status(201).json({
+  //     success: true,
+  //     data: course,
+  //   });
+  // } catch (error) {
+  //   res.status(401).json({
+  //     error: 'Something error, can not get user data',
+  //   });
+  // }
+  try {
   
 
-  //   const messages = await Course.aggregate([
-  //     { $match: { title:req.params.title } },
+    const messages = await Course.aggregate([
+      { $match: { title:req.params.title } },
   
    
-  //   ]);
+    ]);
 
-  //   res.json(messages);
-  // } catch (error) {
-  //   res.status(400).json({ error: error.message });
-  // }
+    res.json(messages);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
 });
 
 //get single course for student
