@@ -88,7 +88,8 @@ const getTeacherApplication = asyncHandler(async (req, res) => {
           address: 1,
           age: 1,
           'user': 1,
-          teacherInfo: 1
+          teacherInfo: 1,
+          updatedAt:1
         }
       },
       { $skip: skip },
@@ -115,7 +116,8 @@ const getTeacherFinal= asyncHandler(async (req, res) => {
           address: 1,
           age: 1,
           'user': 1,
-          teacherInfo: 1
+          teacherInfo: 1,
+          updatedAt:1
         }
       },
       { $skip: skip },
@@ -141,7 +143,8 @@ const getTeacherInterview= asyncHandler(async (req, res) => {
           address: 1,
           age: 1,
           'user': 1,
-          teacherInfo: 1
+          teacherInfo: 1,
+          updatedAt:1
         }
       },
       { $skip: skip },
