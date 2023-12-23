@@ -133,7 +133,8 @@ courseWhy: [
     {
       uploadUrl: String,
       title: String,
-      subtitle:String
+      subtitle:String,
+      layout:String 
     }
 ],
 courseForWhom:[

@@ -161,6 +161,25 @@ const getSingleCourse = asyncHandler(async (req, res) => {
     });
   }
 });
+// const getSingleCourse = asyncHandler(async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const course = await Course.findOne({ _id: ObjectId(id) }).select({
+//       'curriculum.lessons.quizes': 0,
+//       'curriculum.lessons.video': 0,
+//       'curriculum.lessons.note': 0,
+//     });
+//     console.log(course);
+//     res.status(201).json({
+//       success: true,
+//       data: course,
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       error: 'Something error, can not get user data',
+//     });
+//   }
+// });
 
 //get single course for student
 const getSingleCourseforStudent = asyncHandler(async (req, res) => {
