@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
-
+const compression =require('compression')
 /* import handler */
 const courseHandler = require('./routeHandler/courseHandler');
 const blogHandler = require('./routeHandler/BlogsHandler');
@@ -72,7 +72,10 @@ app.use(cors({
   origin: "*",
 }));
 
-
+app.use(compression({
+  level:6,
+  threshold:10*1000
+}))
 dotenv.config();
 app.set('view engine', 'ejs');
 app.use(session({
