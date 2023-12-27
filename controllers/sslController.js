@@ -6,9 +6,8 @@ const router = express.Router();
 const uuid = require('uuid');
 const Payment = require('../schemas/SurjoPaySchema');
 const PaymentSSL = require('../schemas/sslPaySchema')
-const store_id = 'qawmi6548aea1cf3a7'
-const store_passwd = '6548F3072FE1D36902@qawmi'
-
+const store_id = 'qawmiuniversity0live'
+const store_passwd ="6548F3072FE1D36902"
 // const store_id = 'sslin6540f8f222862'
 // const store_passwd = 'sslin6540f8f222862@ssl'
 const is_live = true
@@ -24,8 +23,8 @@ const sslPost = (async (req, res) => {
     total_amount: paymentData?.amount,
     currency: 'BDT',
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `https://api.qawmiuniversity.com/success/payment/${tran_id}`,
-    fail_url: `https://api.qawmiuniversity.com/failed/payment/${tran_id}`,
+    success_url: `http://localhost:8000/success/payment/${tran_id}`,
+    fail_url: `http://localhost:8000/failed/payment/${tran_id}`,
     cancel_url: 'https://qawmiuniversity.com/*',
     ipn_url: 'https://qawmiuniversity.com/ipn',
     shipping_method: paymentData.paymentMethod,

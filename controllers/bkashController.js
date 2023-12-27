@@ -14,12 +14,12 @@ const createBPayment=asyncHandler(async (req, res) => {
     const { amount, callbackURL, orderID, reference,name} = req.body
     const paymentDetails = {
       amount: amount,                                               
-      callbackURL: `https://api.qawmiuniversity.com/bkash/bkash-callback?name=${name}`,  
+      callbackURL: `http://localhost:8000/bkash/bkash-callback?name=${name}`,  
       orderID: orderID || 'Order_101',                                   
       reference: reference ||1,
                            
     }
-  
+  console.log(paymentDetails);
     const result = await createPayment(bkashConfig, paymentDetails)
     res.send(result)
 
