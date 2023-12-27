@@ -23,8 +23,8 @@ const sslPost = (async (req, res) => {
     total_amount: paymentData?.amount,
     currency: 'BDT',
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `http://localhost:8000/success/payment/${tran_id}`,
-    fail_url: `http://localhost:8000/failed/payment/${tran_id}`,
+    success_url: `https://api.qawmiuniversity.com/success/payment/${tran_id}`,
+    fail_url: `https://api.qawmiuniversity.com/failed/payment/${tran_id}`,
     cancel_url: 'https://qawmiuniversity.com/*',
     ipn_url: 'https://qawmiuniversity.com/ipn',
     shipping_method: paymentData.paymentMethod,
@@ -86,7 +86,7 @@ const sslPaySuccess = async (req, res) => {
     );
 
     if (result.modifiedCount > 0) {
-      res.redirect(`http://localhost:3000/check-out/payment-successful`);
+      res.redirect(`https://qawmiuniversity.com/check-out/payment-successful`);
     } else {
       // Handle the case where the document with the provided transactionID was not found or not modified.
       res.status(404).send('Not Found');
@@ -101,7 +101,7 @@ const sslPaySuccess = async (req, res) => {
 const sslPayFaild =async(req,res)=>{
       const deletePayment =await BkashPayment.deleteOne({transactionID:req.params.tranId})
       if (deletePayment.deletedCount) {
-        res.redirect('http://localhost:3000/check-out/failed')
+        res.redirect('https://qawmiuniversity.com/check-out/failed')
       }
 }
 module.exports = {
