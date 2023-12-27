@@ -11,18 +11,16 @@ const { bkashConfig } = require('../config/bkashConfig');
 const createBPayment=asyncHandler(async (req, res) => {
   try {
    
-    const { amount, callbackURL, orderID, reference,regType} = req.body
+    const { amount, callbackURL, orderID, reference,name} = req.body
     const paymentDetails = {
-      amount: amount ||10,                                                 // your product price
-      callbackURL: callbackURL || 'http://localhost:8000/bkash/bkash-callback',  // your callback route 
-      orderID: orderID || 'Order_101',                                     // your orderID
-      reference: reference || '1' ,
-      regType:regType                                // your reference
+      amount: amount ||10,                                               
+      callbackURL: `http://localhost:8000/bkash/bkash-callback?name=${name}`,  
+      orderID: orderID || 'Order_101',                                   
+      reference: reference ||1,
+                           
     }
   
-   console.log(paymentDetails);
     const result = await createPayment(bkashConfig, paymentDetails)
-  
     res.send(result)
 
   } catch (e) {
@@ -31,9 +29,10 @@ const createBPayment=asyncHandler(async (req, res) => {
   });
 
   const executeBPayment = async (req, res) => {
-    console.log(req.query, 'this is qury');
+
     try {
-      const { status, paymentID} = req.query;
+      const { status, paymentID,name} = req.query;
+      
       let result;
 
       if (status === 'success') {
@@ -47,17 +46,21 @@ const createBPayment=asyncHandler(async (req, res) => {
   
      
       if (result?.transactionStatus === 'Completed') {
-        console.log(result);
+       
         const paymentData = {
           amount: +result?.amount,
           transactionID: result?.paymentID,
-      // Add regType to the paymentData object
+          payerReference: result?.payerReference,
+         phone:result?.customerMsisdn,
+          name:req.query.name,
+          method:'bkash',
+          paidStatus: true
         };
   
         // Using Mongoose to create the payment record
         const paymentRecord = await BkashPayment.create(paymentData);
   
-        console.log(paymentData, paymentRecord);
+        
   
         res.redirect('https://qawmiuniversity.com/check-out/payment-successful');
         return;
@@ -66,7 +69,7 @@ const createBPayment=asyncHandler(async (req, res) => {
         return;
       }
     } catch (e) {
-      console.error(e);
+     
       res.status(500).send('Internal Server Error');
     }
   };
@@ -96,11 +99,36 @@ const createBPayment=asyncHandler(async (req, res) => {
     }
   });
   
+  const getmonthlypayment = asyncHandler(async (req, res) => {
+    try {
+      const messages = await BkashPayment.find({reference:'student-monthly-payment',paidStatus: true});
+  
+      res.json(messages);
+    } catch (error) {
+      res.status(400);
+      throw new Error(error.message);
+    }
+  });
+  
+  const deleteAllStudentPay = asyncHandler(async (req, res) => {
+    try {
+        // Use deleteMany to delete all documents in the collection
+        const result = await BkashPayment.deleteMany({});
+        
+        // Check the result object to see the number of deleted documents
+        console.log(`${result.deletedCount} documents deleted.`);
 
+        res.json({ message: 'All documents deleted successfully.' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal Server Error', message: error.message });
+    }
+});
 
   module.exports = {
     createBPayment,
     executeBPayment,
     refundBPayment,
-    getAllpayment
+    getAllpayment,
+    deleteAllStudentPay,
+    getmonthlypayment
   };
