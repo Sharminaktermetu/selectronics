@@ -72,4 +72,4 @@ const StudentTeacherAdmin = (req, res, next) => {
 };
 
 
-module.exports = {checkLogin,admin,teacher,admin,StudentTeacherAdmin}
+module.exports = {checkLogin,admin,teacher,student,StudentTeacherAdmin}
