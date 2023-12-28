@@ -42,6 +42,7 @@ const RegistrationUpdate = asyncHandler(async (req, res) => {
 
 
 const RegistrationUpdateById = asyncHandler(async (req, res) => {
+  
   try {
     const id = req.params.id;    
     const data = req.body;
@@ -65,6 +66,7 @@ const RegistrationUpdateById = asyncHandler(async (req, res) => {
 });
 
 const getAllRegistration = asyncHandler(async (req, res) => {
+ 
   try {
     const messages = await Registration.find({});
 
