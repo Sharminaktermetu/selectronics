@@ -15,7 +15,7 @@ const { admin, checkLogin } = require('../middlewares/checkLogin');
 const { route } = require('./userHandler');
 const router = express.Router();
 
-router.route('/').post(createRegistration).get(getAllRegistration);
+router.route('/').post(createRegistration).get(checkLogin,admin,getAllRegistration);
   
 router.route('/final').get(getTeacherFinal);
 router.route('/interview').get(getTeacherInterview);
