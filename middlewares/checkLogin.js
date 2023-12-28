@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 
 const checkLogin = async(req, res, next) => {
     const { authorization } = req.headers
-    
+   
     try {
         if (authorization && authorization.startsWith('Bearer')) {
             const token = authorization.split(" ")[1]
