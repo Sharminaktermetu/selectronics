@@ -4,9 +4,9 @@ const { createCourse, getAllCourse, courseUpdate, getSingleCourse,getManyByFilte
 const { checkLogin, admin, StudentTeacherAdmin } = require('../middlewares/checkLogin')
 const router=express.Router()
 
-router.route('/').post(createCourse).get(getAllCourse).put(courseUpdate)
-router.route('/admin').get(getAllCourseForAdmin)
-router.route("/update").put(courseUpdate)
+router.route('/').post(checkLogin,admin,createCourse).get(getAllCourse).put(checkLogin,courseUpdate)
+router.route('/admin').get(checkLogin,admin,getAllCourseForAdmin)
+router.route("/update").put(checkLogin,courseUpdate)
 router.route('/:id').get(getSingleCourse)
 router.route('/:title').get(getSingleCourse)
 router.route("/delete/:id").delete(deleteCourse)

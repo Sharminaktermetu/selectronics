@@ -17,7 +17,7 @@ const checkLogin = async(req, res, next) => {
 
             req.user = await User.findById(decoded.id).select("-password");
 
-                console.log(req.user)
+              
             next()
         }
 
@@ -32,6 +32,7 @@ const checkLogin = async(req, res, next) => {
 
 
 const admin = (req, res, next) => {
+    console.log(req.user,'this is admin');  
     if (req.user && req.user.role == 'admin') {
         next();
     } else {

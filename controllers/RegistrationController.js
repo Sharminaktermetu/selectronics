@@ -4,7 +4,7 @@ const Registration = require('../schemas//registrationSchema');
 const ObjectId = require('mongodb').ObjectId;
 const createRegistration = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
+    
     const newRegistration = await Registration.create({
       ...req.body,
     });
