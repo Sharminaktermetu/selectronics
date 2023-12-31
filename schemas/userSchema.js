@@ -9,15 +9,15 @@ const userSchema = mongoose.Schema({
   ID: String,
   name: {
     type: String,
-    required: true,
+   
   },
   email: {
     type: String,
-    required: true,
+   
   },
   password: {
     type: String,
-    required: true,
+    
   },
   role: {
     type: String,
@@ -27,6 +27,10 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  number: {
+    type: String,
+    required: true
+},
  studentId:String,
  teamId:String,
  
@@ -141,7 +145,13 @@ const userSchema = mongoose.Schema({
   verifyTokenExpire:Date
  
 });
-
+userSchema.methods.generateJWT = function () {
+  const token = jwt.sign({
+      _id: this._id,
+      number: this.number
+  }, process.env.JWT_SECRET, { expiresIn: "7d" });
+  return token
+}
 userSchema.methods.getResetPasswordToken = () => {
   const resetToken = crypto.randomBytes(20).toString("hex");
 

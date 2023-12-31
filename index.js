@@ -53,6 +53,7 @@ const achievementHandler = require('./routeHandler/achievementHandler');
 const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriberHandler');
 const addHandler = require('./routeHandler/addHandler');
 const bkashHandler = require('./routeHandler/bkashHandler')
+const checkOtp = require('./routeHandler/otpHandler')
 const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
@@ -172,6 +173,7 @@ app.use('/subscriber', comingSoonSubscriberHandler);
 app.use('/add', addHandler);
 app.use('/bkash', bkashHandler)
 app.use("/img", imageHandler);
+app.use("/otp", checkOtp);
 app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
