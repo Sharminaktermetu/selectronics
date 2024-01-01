@@ -1,9 +1,12 @@
 const { Schema, model } = require("mongoose");
 
 module.exports.Otp = model('Otp', Schema({
+    email:{
+        type:String,
+    },
     number: {
         type: String,
-        required: true
+        
     },
     otp: {
         type: String,

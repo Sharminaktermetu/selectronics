@@ -16,8 +16,20 @@ const ObjectId = require("mongodb").ObjectId;
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
+    let user;
 
-    const user = await User.findOne({ number: req.body.number });
+    // Check if either number or email is present in the request body
+    if (req.body.number) {
+      user = await User.findOne({ number: req.body.number });
+    } else if (req.body.email) {
+      user = await User.findOne({ email: req.body.email });
+    } else {
+      return res.status(400).json({
+        success: false,
+        error: "Please provide either 'number' or 'email' in the request body",
+      });
+    }
+
     const verifyToken = crypto.randomBytes(20).toString("hex");
 
     // Hash token (private key) and save to database
@@ -26,58 +38,39 @@ const registerUser = asyncHandler(async (req, res) => {
       .update(verifyToken)
       .digest("hex");
 
-    // create reset url
-
-  
-
-    if (user?.name || user?.number) 
-    
-    {
+    if (user) {
       return res.status(201).json({
-        success:false,
-        error: "You are already registered",
+        success: false,
+        error: "User already registered",
       });
-    } 
-    
-    
-    else 
-    {
+    } else {
+      const hashedPass = await bcrypt.hash(req.body.password, 10);
+      const newUser = await User.create({
+        name: req.body.name,
+        number: req.body.number,
+        email: req.body.email,
+        password: hashedPass,
+        role: req?.body?.role,
+        // verifyToken: encryptedToken,
+        // verifyTokenExpire: Date.now() + 60 * (60 * 1000)
+      });
 
-      if (!user?.number) 
-      
-      
-      {
-        
-        const hashedPass = await bcrypt.hash(req.body.password, 10);
-        const newUser = await User.create({
-          name: req.body.name,
-          number:req.body.number,
-          password: hashedPass,
-          role: req?.body?.role,
-          // verifyToken: encryptedToken,
-          // verifyTokenExpire: Date.now() + 60 * (60 * 1000)
-        })
-        console.log(newUser);
-        return res.status(200).send({
-          success:true,
-          message: "User create Successfull.!!",
-          // token: {token},
-          data: userNumber
+      console.log(newUser);
+
+      return res.status(200).send({
+        success: true,
+        message: "User created successfully",
+        data: newUser,
       });
-      } 
-      
-      
     }
-   }
-
-   catch (error) {
-    
-
+  } catch (error) {
+    console.error(error);
     res.status(500).json({
-      error: "register failed",
+      error: "Registration failed",
     });
   }
 });
+
 
 
 
@@ -115,53 +108,59 @@ const persistUser = asyncHandler(async (req, res) => {
 /****** Login User ********/
 
 const loginUser = asyncHandler(async (req, res) => {
-
   try {
-    const user = await User.findOne({ number: req.body.number });
-console.log(user,'this is user');
-    if (!user?.number) {
-      return res.status(201).json({
-        success:false,
-        error: "Your number is not registered",
-      });
+    let user;
+
+    // Check if either number or email is present in the request body
+    if (req.body.number) {
+      user = await User.findOne({ number: req.body.number });
+    } else if (req.body.email) {
+      user = await User.findOne({ email: req.body.email });
     } else {
-
-      
-      const IsUserValid = await bcrypt.compare(
-        req.body.password,
-        user.password
-      );
-
-      if (!IsUserValid) {
-        res.status(201).json({
-          success:false,
-          error: "Password incorrect ! Please try again.",
-        });
-        return 
-      }
-
-      res.status(200).json({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-        _id: user._id,
-        isBlock:user.isBlock,
-        avatar: user.avatar,
-        data: "logged in successfully",
-        
-        success:true,
-        token: generateToken(user._id),
+      return res.status(400).json({
+        success: false,
+        error: "Please provide either 'number' or 'email' in the request body",
       });
     }
 
+    if (!user) {
+      return res.status(201).json({
+        success: false,
+        error: "User not found",
+      });
+    }
+
+    const isUserValid = await bcrypt.compare(req.body.password, user.password);
+
+    if (!isUserValid) {
+      return res.status(201).json({
+        success: false,
+        error: "Password incorrect! Please try again.",
+      });
+    }
+
+    return res.status(200).json({
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      _id: user._id,
+      isBlock: user.isBlock,
+      avatar: user.avatar,
+      data: "Logged in successfully",
+      message: 'Success',
+      success: true,
+      token: generateToken(user._id),
+    });
+
   } catch (err) {
-    
-    res.status(201).json({
-      success:false,
-      error: "login failed ! check your credentials",
+    console.error(err);
+    res.status(500).json({
+      success: false,
+      error: "Login failed! Check your credentials",
     });
   }
 });
+
 
 
 

@@ -38,25 +38,25 @@ const sendOtp = async (req, res) => {
 
     const number = req.body.number;
     console.log(OTP,'this is otp');
-    // const smsResponse = await axios.post(`${apiBaseUrl}/send-sms`, {
-    //           api_key: apiKey,
-    //           api_secret: apiSecret,
-    //           request_type: 'OTP',
-    //           message_type: 'TEXT',
-    //           mobile:number,
-    //           message_body: `Your OTP for verification is: ${OTP}`,
-    // });
+    const smsResponse = await axios.post(`${apiBaseUrl}/send-sms`, {
+              api_key: apiKey,
+              api_secret: apiSecret,
+              request_type: 'OTP',
+              message_type: 'TEXT',
+              mobile:number,
+              message_body: `Your OTP for verification is: ${OTP}`,
+    });
     const otp = new Otp({ number: number, otp: OTP });
     const salt = await bcrypt.genSalt(10)
     otp.otp = await bcrypt.hash(otp.otp, salt);
     const result = await otp.save();
     console.log(result);
-    //  if (smsResponse.data.api_response_code === 200) {
-    //           res.json({ success: true, message: 'OTP sent successfully' });
-    //         } else {
-    //           res.status(500).json({ success: false, message: 'Failed to send OTP' });
-    // }
-    return res.json({ success: true, message: 'OTP sent successfully' });
+     if (smsResponse.data.api_response_code === 200) {
+              res.json({ success: true, message: 'OTP sent successfully' });
+            } else {
+              res.status(500).json({ success: false, message: 'Failed to send OTP' });
+    }
+    // return res.json({ success: true, message: 'OTP sent successfully' });
 }
 
 

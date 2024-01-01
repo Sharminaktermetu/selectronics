@@ -20,7 +20,7 @@ const {checkLogin,admin, StudentTeacherAdmin}=require('../middlewares/checkLogin
 
 
 
-router.route('/').put(updateUser).get(checkLogin,persistUser)
+router.route('/').put(updateUser).get(persistUser)
 router.route('/single/:email').get(getSingleUserInfo)
 router.route('/single-home/:id').get(getSingleUserHome)
 router.route('/byID/:id').get(getStudentByID)

@@ -54,6 +54,7 @@ const comingSoonSubscriberHandler = require('./routeHandler/comingSoonSubscriber
 const addHandler = require('./routeHandler/addHandler');
 const bkashHandler = require('./routeHandler/bkashHandler')
 const checkOtp = require('./routeHandler/otpHandler')
+const checkEmailOtp = require('./routeHandler/emailHandler')
 const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
@@ -174,6 +175,7 @@ app.use('/add', addHandler);
 app.use('/bkash', bkashHandler)
 app.use("/img", imageHandler);
 app.use("/otp", checkOtp);
+app.use("/", checkEmailOtp);
 app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
