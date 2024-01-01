@@ -44,7 +44,7 @@ router.route("/attendance/:email").put(updateAttendance);
 router.route("/filter-course/:id").get(filterByCoursePurchasing);
 router.route('/get-search').get(checkLogin,getUserBySearch)
 router.route('/update-level').put(updateLevels)
-router.route('/verify-email/:verifyToken').put(verifyEmail)
+// router.route('/verify-email/:verifyToken').put(verifyEmail)
 
 
 

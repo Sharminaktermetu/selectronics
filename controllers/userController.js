@@ -17,7 +17,7 @@ const ObjectId = require("mongodb").ObjectId;
 const registerUser = asyncHandler(async (req, res) => {
   try {
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ number: req.body.number });
     const verifyToken = crypto.randomBytes(20).toString("hex");
 
     // Hash token (private key) and save to database
@@ -27,77 +27,10 @@ const registerUser = asyncHandler(async (req, res) => {
       .digest("hex");
 
     // create reset url
-    const verifyUrl = `https://qawmiuniversity.com/verify-email/${verifyToken}`;
-    // HTML Message
-    const message = `
-      <body marginheight="0" topmargin="0" marginwidth="0" style="margin: 0px; background-color: #f2f3f8;" leftmargin="0">
-      <!--100% body table-->
-      <table cellspacing="0" border="0" cellpadding="0" width="100%" bgcolor="#f2f3f8"
-          style="@import url(https://fonts.googleapis.com/css?family=Rubik:300,400,500,700|Open+Sans:300,400,600,700); font-family: 'Open Sans', sans-serif;">
-          <tr>
-              <td>
-                  <table style="background-color: #f2f3f8; max-width:670px;  margin:0 auto;" width="100%" border="0"
-                      align="center" cellpadding="0" cellspacing="0">
-                      <tr>
-                          <td style="height:80px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                          <td style="text-align:center;">
-                            <a href="https://qawmiuniversity.com" title="logo" target="_blank">
-                              <img width="100" src="https://i.ibb.co/R6sJJ5R/lg.png" title="logo" alt="logo">
-                            </a>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td style="height:20px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                          <td>
-                              <table width="95%" border="0" align="center" cellpadding="0" cellspacing="0"
-                                  style="max-width:670px;background:#fff; border-radius:3px; text-align:center;-webkit-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);-moz-box-shadow:0 6px 18px 0 rgba(0,0,0,.06);box-shadow:0 6px 18px 0 rgba(0,0,0,.06);">
-                                  <tr>
-                                      <td style="height:40px;">&nbsp;</td>
-                                  </tr>
-                                  <tr>
-                                      <td style="padding:0 35px;">
-                                          <h1 style="color:#1e1e2d; font-weight:500; margin:0;font-size:32px;font-family:'Rubik',sans-serif;">Verify Your Email</h1>
-                                          <span
-                                              style="display:inline-block; vertical-align:middle; margin:29px 0 26px; border-bottom:1px solid #cecece; width:100px;"></span>
-                                          <p style="color:#455056; font-size:15px;line-height:24px; margin:0;">
-                                              We cannot simply authenticate with your email.You must verify your email. A unique link to verify your
-                                              email has been generated for you.This link will expired after 60 minutes. To verify your email, click the
-                                              following button and follow the instructions.
-                                          </p>
-                                          <a href=${verifyUrl}
-                                              style="background:#20e277;text-decoration:none !important; font-weight:500; margin-top:35px; color:#fff;text-transform:uppercase; font-size:14px;padding:10px 24px;display:inline-block;border-radius:50px;">Verify Email</a>
-                                      </td>
-                                  </tr>
-                                  <tr>
-                                      <td style="height:40px;">&nbsp;</td>
-                                  </tr>
-                              </table>
-                          </td>
-                      <tr>
-                          <td style="height:20px;">&nbsp;</td>
-                      </tr>
-                      <tr>
-                          <td style="text-align:center;">
-                              <p style="font-size:14px; color:rgba(69, 80, 86, 0.7411764705882353); line-height:18px; margin:0 0 0;">&copy; <strong>www.qawmiuniversity.com</strong></p>
-                          </td>
-                      </tr>
-                      <tr>
-                          <td style="height:80px;">&nbsp;</td>
-                      </tr>
-                  </table>
-              </td>
-          </tr>
-      </table>
-      <!--/100% body table-->
-  </body>
-    
-   `;
 
-    if (user?.name && user?.isVerified === true) 
+  
+
+    if (user?.name || user?.number) 
     
     {
       return res.status(201).json({
@@ -110,96 +43,34 @@ const registerUser = asyncHandler(async (req, res) => {
     else 
     {
 
-      if (user?.isVerified === false) 
+      if (!user?.number) 
       
       
       {
         
         const hashedPass = await bcrypt.hash(req.body.password, 10);
-        const edited = await User.updateOne(
-          { email: req.body.email },
-          {
-            $set: {
-              name: req.body.name,
-              email: req.body.email,
-              password: hashedPass,
-              verifyToken: encryptedToken,
-              verifyTokenExpire: Date.now() + 10 * (60 * 1000)
-            }
-          },
-
-        );
-
-
-        try {
-           sendEmail({
-            to: req.body.email,
-            subject: "Verify Email",
-            text: message,
-          });
-
-          res.status(200).json({ success: true, data: "Check Inbox ! Email Sent." });
-        } catch (err) {
-
-
-          user.resetPasswordToken = undefined;
-          user.resetPasswordExpire = undefined;
-
-          await user.save();
-          console.log(err)
-          res.status(401).json({
-            error: "Email could not be sent",
-          });
-        }
-
-
-
+        const newUser = await User.create({
+          name: req.body.name,
+          number:req.body.number,
+          password: hashedPass,
+          role: req?.body?.role,
+          // verifyToken: encryptedToken,
+          // verifyTokenExpire: Date.now() + 60 * (60 * 1000)
+        })
+        console.log(newUser);
+        return res.status(200).send({
+          success:true,
+          message: "User create Successfull.!!",
+          // token: {token},
+          data: userNumber
+      });
       } 
       
       
-      else {
+    }
+   }
 
-        const hashedPass = await bcrypt.hash(req.body.password, 10);
-        const newUser = await User.create({
-          name: req.body.name,
-          email: req.body.email,
-          password: hashedPass,
-          role: req?.body?.role,
-          verifyToken: encryptedToken,
-          verifyTokenExpire: Date.now() + 60 * (60 * 1000)
-
-        });
-        
-
-        try {
-          await sendEmail({
-            to: req.body.email,
-            subject: "Verify Email",
-            text: message,
-          });
-
-          res.status(200).json({ success: true, data: "verify email sent" });
-        } catch (err) {
-
-
-          user.verifyToken = undefined;
-          user.verifyTokenExpire = undefined;
-
-          await user.save();
-
-          
-        }
-
-       
-      }
-
-      }
-
-
-
-      
-
-  } catch (error) {
+   catch (error) {
     
 
     res.status(500).json({
@@ -208,59 +79,6 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-const verifyEmail=asyncHandler(async (req, res) => {
-
-  
-   //Hash URL Token
-   const verifyToken = crypto
-   .createHash("sha256")
-   .update(req.params.verifyToken)
-   .digest("hex");
-  try {
-    
-
-    const user = await User.findOne({
-      verifyToken,
-      verifyTokenExpire: { $gt: Date.now() },
-    }).select(
-      "-password -Course",
-
-    );
-   
-    if (!user?.name) {
-      res.status(201).json({
-        success:false,
-        error: "Session expired,Please create another session",
-      });
-      return;
-    }
-
-
-    
-
-    user.isVerified = true;
-    user.verifyToken = undefined;
-    user.verifyTokenExpire = undefined;
-
-
-    await user.save();
-
-    
-    res.status(200).json({
-      success: true,
-      data: "Your Email is Verified",
-    });
-  } catch (err) {
-
-
-    
-    res.status(201).json({
-      success:false,
-      error: "Session expired,Please create another session",
-    });
-  }
-});
 
 
 
@@ -275,7 +93,7 @@ const persistUser = asyncHandler(async (req, res) => {
     
     res.status(200).json({
       name: user[0].name,
-      email: user[0].email,
+     
       role: user[0].role,
       _id: user[0]._id,
       avatar: user[0].avatar,
@@ -297,24 +115,18 @@ const persistUser = asyncHandler(async (req, res) => {
 /****** Login User ********/
 
 const loginUser = asyncHandler(async (req, res) => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
 
-    if (!user?.name) {
+  try {
+    const user = await User.findOne({ number: req.body.number });
+console.log(user,'this is user');
+    if (!user?.number) {
       return res.status(201).json({
         success:false,
-        error: "Your email is not registered",
+        error: "Your number is not registered",
       });
     } else {
 
-      // if(!user?.isVerified){
-      //   res.status(201).json({
-      //     success:false,
-      //     error: "Can not login ! Email is not verified",
-      //   });
-
-      //   return
-      // }
+      
       const IsUserValid = await bcrypt.compare(
         req.body.password,
         user.password
@@ -336,6 +148,7 @@ const loginUser = asyncHandler(async (req, res) => {
         isBlock:user.isBlock,
         avatar: user.avatar,
         data: "logged in successfully",
+        
         success:true,
         token: generateToken(user._id),
       });
@@ -1237,7 +1050,7 @@ module.exports = {
   updateAttendance,
   updateLevels,
   getStudentByID,
-  verifyEmail,
+  // verifyEmail,
   getStudentByStudentId,
   getSingleUserHome,
   updateCart

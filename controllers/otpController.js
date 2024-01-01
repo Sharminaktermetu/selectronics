@@ -10,7 +10,7 @@ const otpGenerator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 
-const getOtp=( async (req, res) => {
+const getOtp = (async (req, res) => {
     console.log("i am route");
     // try {
     //     // const body = req.body;
@@ -27,11 +27,11 @@ const getOtp=( async (req, res) => {
 
 const sendOtp = async (req, res) => {
     console.log(req.body);
-    // const user = await User.findOne({
-    //     number: req.body.number
-    // });
-    // if (user) return res.status(400).json({ success: true, message: 'User already registered!' });
-   
+    const user = await User.findOne({
+        number: req.body.number
+    });
+    if (user) return res.status(400).json({user:true, success: true, message: 'User already registered!' });
+
     const OTP = otpGenerator.generate(4, {
         digits: true, alphabets: false, upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets:false,
     });
@@ -59,6 +59,7 @@ const sendOtp = async (req, res) => {
     return res.json({ success: true, message: 'OTP sent successfully' });
 }
 
+
 // Endpoint to verify the entered OTP
 
 const verifyOtp = async (req, res) => {
@@ -76,15 +77,12 @@ const verifyOtp = async (req, res) => {
         const OTPDelete = await Otp.deleteMany({
             number: rightOtpFind.number
         });
-        const userNumber = await User.findOne({
-        number: req.body.number
-    });
-    // if (user) return res.status(400).json({ success: true, message: 'User already registered!' });
+
         return res.status(200).send({
-            success:true,
+            success: true,
             message: "OTP Verify Successfull.!!",
             // token: {token},
-            data: userNumber
+            // data: userNumber
         });
     } else {
         return res.status(400).send("Your OTP was wrong!")
@@ -92,8 +90,8 @@ const verifyOtp = async (req, res) => {
 }
 
 
-  
-  
+
+
 module.exports = {
     sendOtp,
     verifyOtp,
