@@ -30,7 +30,7 @@ const sendOtp = async (req, res) => {
     const user = await User.findOne({
         number: req.body.number
     });
-    if (user) return res.status(400).json({user:true, success: true, message: 'User already registered!' });
+    if (user) return res.status(400).json({user:true, success: true, });
 
     const OTP = otpGenerator.generate(4, {
         digits: true, alphabets: false, upperCaseAlphabets: false, specialChars: false,lowerCaseAlphabets:false,
