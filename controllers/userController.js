@@ -146,7 +146,7 @@ const loginUser = asyncHandler(async (req, res) => {
       _id: user._id,
       isBlock: user.isBlock,
       avatar: user.avatar,
-      data: "Logged in successfully",
+      data: "Login successful",
       message: 'Success',
       success: true,
       token: generateToken(user._id),
