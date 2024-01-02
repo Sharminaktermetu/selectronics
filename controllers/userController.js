@@ -142,6 +142,7 @@ const loginUser = asyncHandler(async (req, res) => {
     return res.status(200).json({
       name: user.name,
       email: user.email,
+      number:user.number,
       role: user.role,
       _id: user._id,
       isBlock: user.isBlock,
