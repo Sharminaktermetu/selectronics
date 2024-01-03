@@ -64,7 +64,7 @@ console.log(OTP);
     const msg = {
               to: email,
               from: 'care@qawmiuniversity.com', // Sender's email address
-              subject: 'Your OTP for Verification',
+              subject: 'Qawmi University OTP verification code - Forgot Password',
               text: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
               <br/>
             The code will expire in 5 minutes.
