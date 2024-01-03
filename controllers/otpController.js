@@ -3,25 +3,12 @@ const router = express.Router();
 const axios = require('axios');
 const User = require('../schemas/userSchema');
 const { Otp } = require('../schemas/otpSchema');
-const apiKey = 'KEY-4i36khch4gx965f2po09zcuvbas7gg9a'; // Replace with your actual API key
-const apiSecret = 'or1h1F4KXm8zNKt3'; // Replace with your actual API secret
-const apiBaseUrl = 'https://portal.adnsms.com/api/v1/secure'; // Replace with your API base URL
+const apiKey = process.env.OTP_KEY; 
+const apiSecret = process.env.OTP_SECRET;
+const apiBaseUrl = 'https://portal.adnsms.com/api/v1/secure';
 const otpGenerator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
-
-const getOtp = (async (req, res) => {
-    console.log("i am route");
-    // try {
-    //     // const body = req.body;
-    //     // const result = await NewUserModel.create(body);
-
-    //     console.log(result);
-    //     res.send(result);
-    // } catch (err) {
-    //     res.status(400).json({ message: "Something went wrong after catch block", err })
-    // }
-})
 
 
 

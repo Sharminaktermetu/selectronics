@@ -4,86 +4,13 @@ const sgMail = require('@sendgrid/mail');
 
 const User = require('../schemas/userSchema');
 const { Otp } = require('../schemas/otpSchema');
-sgMail.setApiKey('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'); // Replace with your actual SendGrid API key
+sgMail.setApiKey(process.env.EMAIL_API_KEY);
 const otpGenerator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const _ = require("lodash");
 // Function to generate a random OTP
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
 
-// Map to store OTPs, you may want to use a database for this in a real application
-const otpMap = new Map();
 
-// const emailOtpSend=(async (req, res) => {
-//     console.log(req.body.email);
-//   try {
-//     const { email } = req.body;
-//     const user = await User.findOne({
-//         email: req.body.email
-//     });
-//     if (user) return res.status(400).json({user:true, success: true, message: 'User already registered!' });
-
-//     if (!email) {
-//       return res.status(400).json({ error: 'Email is required' });
-//     }
-
-//     const otp = generateOTP();
-// console.log(otp);
-//     const msg = {
-//       to: email,
-//       from: 'care@qawmiuniversity.com', // Sender's email address
-//       subject: 'Your OTP for Verification',
-//       text: `Your OTP is: ${otp}`,
-//       html: `<strong>Your OTP is: ${otp}</strong>`,
-//     };
-
-//     await sgMail.send(msg);
-
-//     // Store the OTP in the map with the email as the key
-//     otpMap.set(email, otp);
-
-//     res.json({ message: 'OTP sent successfully' });
-//   } catch (error) {
-//     console.error('Error sending OTP:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
-
-// const verifyEmailOtp=(async (req, res) => {
-//   try {
-//     const { email, otp } = req.body;
-
-//     if (!email || !otp) {
-//       return res.status(400).json({ error: 'Email and userEnteredOTP are required' });
-//     }
-
-//     const storedOTP = otpMap.get(email);
-
-//     if (!storedOTP) {
-//       return res.status(400).json({ error: 'OTP not found or expired' });
-//     }
-
-//     if (userEnteredOTP === storedOTP) {
-//       // OTP is valid, proceed with creating a user
-//       const newUser = { email }; // Create a user object with the email
-
-//       // Assuming NewUserModel.create returns the created user object
-//       const result = await User.create(newUser);
-
-//       // Clear the OTP for the email (optional)
-//       otpMap.delete(email);
-
-//       res.json({ message: 'OTP verification successful', user: result });
-//     } else {
-//       res.status(400).json({ error: 'Invalid OTP' });
-//     }
-//   } catch (error) {
-//     console.error('Error verifying OTP:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// });
 const emailOtpSend = async (req, res) => {
     const user = await User.findOne({
         email: req.body.email
