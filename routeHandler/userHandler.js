@@ -20,7 +20,7 @@ const {checkLogin,admin, StudentTeacherAdmin}=require('../middlewares/checkLogin
 
 
 
-router.route('/').put(updateUser).get(persistUser)
+router.route('/').put(updateUser).get(checkLogin,persistUser)
 router.route('/single/:email').get(getSingleUserInfo)
 router.route('/single-home/:id').get(getSingleUserHome)
 router.route('/byID/:id').get(getStudentByID)
@@ -31,8 +31,8 @@ router.route('/all').get(getAllUser)
 router.route('/studentId/:studentId').get(getStudentByStudentId)
 router.route('/signup').post(registerUser)
 router.post('/login',loginUser)
-router.route('/forgotpassword').post(forgotPassword)
-router.route("/passwordreset/:resetToken").put(resetPassword);
+// router.route('/forgotpassword').post(forgotPassword)
+router.route("/passwordreset").put(resetPassword);
 router.route("/assignmentMarks").get(getAssignmentMarks);
 router.route("/assignmentMarks/:id").get(getSingleUserAssignmentMarks)
 router.route("/questionMarks/:email").get(getSingleUserQuestionMarks)
@@ -42,7 +42,7 @@ router.route("/feedback/:email").put(pushFeedback);
 router.route("/point/:email").put(updatePoint); 
 router.route("/attendance/:email").put(updateAttendance); 
 router.route("/filter-course/:id").get(filterByCoursePurchasing);
-router.route('/get-search').get(checkLogin,getUserBySearch)
+router.route('/get-search').get(getUserBySearch)
 router.route('/update-level').put(updateLevels)
 // router.route('/verify-email/:verifyToken').put(verifyEmail)
 

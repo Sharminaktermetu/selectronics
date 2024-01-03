@@ -116,6 +116,38 @@ console.log(OTP);
 
     return res.json({ success: true, message: 'Email OTP sent successfully' });
 };
+const recoveryEmailOtpSend = async (req, res) => {
+    const user = await User.findOne({
+        email: req.body.email
+    });
+
+    
+
+    const OTP = otpGenerator.generate(4, {
+        digits: true, alphabets: false, upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false,
+    });
+console.log(OTP);
+    const email = req.body.email;
+    const msg = {
+              to: email,
+              from: 'care@qawmiuniversity.com', // Sender's email address
+              subject: 'Your OTP for Verification',
+              text: `Your OTP is: ${OTP}`,
+              html: `<strong>Your OTP is: ${OTP}</strong>`,
+            };
+        
+            await sgMail.send(msg);
+    const otp = new Otp({ email: email, otp: OTP });
+    const salt = await bcrypt.genSalt(10);
+    otp.otp = await bcrypt.hash(otp.otp, salt);
+
+    const result = await otp.save();
+    console.log(result);
+
+    // You may want to send an email with the OTP here
+
+    return res.json({ success: true, message: 'Email OTP sent successfully' });
+};
 
 const verifyEmailOtp = async (req, res) => {
     const otpHolder = await Otp.find({
@@ -165,7 +197,7 @@ async function isExpired(timestamp) {
 module.exports = {
     emailOtpSend,
     verifyEmailOtp,
-   
+    recoveryEmailOtpSend
 
 };
 
