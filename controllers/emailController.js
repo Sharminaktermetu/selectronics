@@ -65,8 +65,14 @@ console.log(OTP);
               to: email,
               from: 'care@qawmiuniversity.com', // Sender's email address
               subject: 'Your OTP for Verification',
-              text: `Your OTP is: ${OTP}`,
-              html: `<strong>Your OTP is: ${OTP}</strong>`,
+              text: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              <br/>
+            The code will expire in 5 minutes.
+            Please do NOT share your otp with others.`,
+              html: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              <br/>
+            The code will expire in 5 minutes.
+            Please do NOT share your otp with others.`,
             };
         
             await sgMail.send(msg);
