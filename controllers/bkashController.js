@@ -9,6 +9,7 @@ const { bkashConfig } = require('../config/bkashConfig');
 
 
 const createBPayment=asyncHandler(async (req, res) => {
+  console.log(req.body);
   try {
    
     const { amount, callbackURL, orderID, reference,name} = req.body
