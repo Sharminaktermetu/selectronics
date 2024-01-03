@@ -117,7 +117,7 @@ const forgotSendOtp = async (req, res) => {
             } else {
               res.status(500).json({ success: false, message: 'Failed to send OTP' });
     }
-    return res.json({ success: true, message: 'OTP sent successfully' });
+    // return res.json({ success: true, message: 'OTP sent successfully' });
 }
 // const verifyForgotOtp = async (req, res) => {
 //     const otpHolder = await Otp.find({
