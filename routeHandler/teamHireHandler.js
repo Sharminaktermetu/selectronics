@@ -1,8 +1,8 @@
 const express = require('express');
 const {
     createTeamMember,
-    getAllTeamMember
-
+    getAllTeamMember,
+    SingleTeamMemberRegDelete
 } = require('../controllers/teamHireController');
 const { admin, checkLogin } = require('../middlewares/checkLogin');
 const { route } = require('./userHandler');
@@ -14,6 +14,6 @@ router.route('/').post(createTeamMember).get(getAllTeamMember);
 // router.route('/singleId/:id').get(getSingleUserRegId);
 // router.route('/update/:id').put(RegistrationUpdateById)
 
-// router.route('/delete/:id').delete(SingleUserRegDelete);
+router.route('/delete/:id').delete(SingleTeamMemberRegDelete);
 
 module.exports = router;

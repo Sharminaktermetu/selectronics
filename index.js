@@ -71,9 +71,7 @@ const { bkashConfig } = require('./config/bkashConfig');
 
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
-app.use(cors({
-  origin: "*",
-}));
+app.use(cors());
 
 app.use(compression({
   level:6,

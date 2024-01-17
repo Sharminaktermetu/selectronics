@@ -130,28 +130,30 @@ const getAllTeamMember = asyncHandler(async (req, res) => {
 //   }
 // });
 
-// const SingleUserRegDelete = asyncHandler(async (req, res) => {
-//   try {
-//     const id = req.params.id;
+const SingleTeamMemberRegDelete = asyncHandler(async (req, res) => {
+  console.log(req.params.id);
+  try {
+    const id = req.params.id;
 
-//     const query = { _id: ObjectId(id) };
+    const query = { _id: ObjectId(id) };
 
-//     const UserRegDelete = await Registration.deleteOne(query);
+    const UserRegDelete = await TeamHire.deleteOne(query);
 
-//     res.status(201).json({
-//       success: true,
-//       data: UserRegDelete,
-//     });
-//   } catch (error) {
-//     res.status(401).json({
-//       error: 'Something error, can not get user data',
-//     });
-//   }
-// });
+    res.status(201).json({
+      success: true,
+      data: UserRegDelete,
+    });
+  } catch (error) {
+    res.status(401).json({
+      error: 'Something error, can not get user data',
+    });
+  }
+});
 
 module.exports = {
     createTeamMember,
     getAllTeamMember,
+    SingleTeamMemberRegDelete
 //   RegistrationUpdate,
 //   getSingleUserReg,
 //   SingleUserRegDelete,

@@ -23,8 +23,8 @@ const sslPost = (async (req, res) => {
     total_amount: paymentData?.amount,
     currency: 'BDT',
     tran_id: tran_id, // use unique tran_id for each api call
-    success_url: `https://api.qawmiuniversity.com/success/payment/${tran_id}`,
-    fail_url: `https://api.qawmiuniversity.com/failed/payment/${tran_id}`,
+    success_url: `http://localhost:8000/success/payment/${tran_id}`,
+    fail_url: `http://localhost:8000/failed/payment/${tran_id}`,
     cancel_url: 'https://qawmiuniversity.com/*',
     ipn_url: 'https://qawmiuniversity.com/ipn',
     shipping_method: paymentData.paymentMethod,

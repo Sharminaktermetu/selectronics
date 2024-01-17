@@ -28,8 +28,8 @@ const checkoutPay = async (req, res) => {
             let newdata = new FormData();
         newdata.append('prefix', 'sp');
         newdata.append('token', data?.data?.token);
-        newdata.append('return_url', 'https://api.qawmiuniversity.com/surjopay/checkout_return');
-        newdata.append('cancel_url', 'https://api.qawmiuniversity.com/surjopay/checkout_cancel');
+        newdata.append('return_url', 'http://localhost:8000/surjopay/checkout_return');
+        newdata.append('cancel_url', 'http://localhost:8000/surjopay/checkout_cancel');
         newdata.append('store_id', data.data.store_id);
         newdata.append('amount', paymentData.amount);
         newdata.append('order_id', paymentData.order_id);

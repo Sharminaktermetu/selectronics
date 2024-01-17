@@ -5,8 +5,7 @@ const mongoose = require('mongoose');
 
 
 const checkLogin = async(req, res, next) => {
-    // console.log(req.headers);
-    // console.log("hitting verify jwt");
+    
     const { authorization } = req.headers
    
     try {
@@ -32,7 +31,6 @@ const checkLogin = async(req, res, next) => {
 
 
 const admin = (req, res, next) => {
-    console.log(req.user,'this is admin');  
     if (req.user && req.user.role == 'admin') {
         next();
     } else {
