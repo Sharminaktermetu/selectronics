@@ -71,9 +71,10 @@ const { bkashConfig } = require('./config/bkashConfig');
 
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
-app.use(cors({
-  origin: ['https://qawmiuniversity.com', 'http://localhost:3000','https://www.qawmiuniversity.com'],
-}));
+// app.use(cors({
+//   origin: ['https://qawmiuniversity.com', 'http://localhost:3000','https://www.qawmiuniversity.com'],
+// }));
+app.use(cors());
 
 app.use(compression({
   level:6,
@@ -184,7 +185,7 @@ app.use(imageHandler);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ['https://qawmiuniversity.com', 'http://localhost:3000','https://www.qawmiuniversity.com'],
+    origin: ['https://qawmilimited.com.bd','https://qawmiuniversity.com', 'http://localhost:5173','https://www.qawmiuniversity.com'],
   },
 });
 
