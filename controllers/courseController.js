@@ -117,7 +117,7 @@ const courseUpdate = asyncHandler(async (req, res) => {
     console.log(req.body);
 
     const data = await Course.findOneAndUpdate(
-      { _id: ObjectId(c_id) },
+      { _id: ObjectId(c_id)},
       {
         $set: {
           ...req.body,

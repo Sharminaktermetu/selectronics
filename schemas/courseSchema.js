@@ -72,6 +72,12 @@ const courseSchema = mongoose.Schema({
   price: {
     type: Number,
   },
+  banSalePrice:{
+    type:String,
+  },
+  banPrice:{
+    type:String
+  },
   description: String,
   PromoCode:String,
   PromoPercentage:Number,
