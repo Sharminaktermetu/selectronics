@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const compression =require('compression')
+import geoip from 'geoip-lite';
 /* import handler */
 const courseHandler = require('./routeHandler/courseHandler');
 const blogHandler = require('./routeHandler/BlogsHandler');
@@ -181,6 +182,18 @@ app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
+
+
+app.use((req, res, next) => {
+    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    const geo = geoip.lookup(ip);
+
+    if (geo && geo.country === "EG") { // Egypt ব্লক করতে চাইলে
+        return res.status(403).send("Access Denied");
+    }
+    
+    next();
+});
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
