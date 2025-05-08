@@ -184,16 +184,16 @@ app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
 
 
-app.use((req, res, next) => {
-    const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    const geo = geoip.lookup(ip);
+// app.use((req, res, next) => {
+//     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+//     const geo = geoip.lookup(ip);
 
-    if (geo && geo.country === "EG") { // Egypt ব্লক করতে চাইলে
-        return res.status(403).send("Access Denied");
-    }
+//     if (geo && geo.country === "EG") { // Egypt ব্লক করতে চাইলে
+//         return res.status(403).send("Access Denied");
+//     }
     
-    next();
-});
+//     next();
+// });
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
