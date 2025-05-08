@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
 const compression =require('compression')
-import geoip from 'geoip-lite';
+
 /* import handler */
 const courseHandler = require('./routeHandler/courseHandler');
 const blogHandler = require('./routeHandler/BlogsHandler');
