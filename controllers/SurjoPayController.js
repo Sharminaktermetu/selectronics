@@ -50,7 +50,7 @@ const checkoutPay = async (req, res) => {
             res.json(data.data.checkout_url)
         })
         .catch((error)=>{
-            res.redirect("https://qawmiuniversity.com/check-out/failed")
+            res.redirect("https://muslimschoool.com/check-out/failed")
         })
         
 
@@ -129,7 +129,7 @@ const return_callback = async (req, res, next) => {
                         new: true,
                     }
                 );
-                res.redirect(`https://qawmiuniversity.com/libraryDetails/${newPayment.customer_order_id}`)
+                res.redirect(`https://muslimschoool.com/libraryDetails/${newPayment.customer_order_id}`)
     
             } else {
     
@@ -175,20 +175,20 @@ const return_callback = async (req, res, next) => {
     
     
     
-                res.redirect("https://qawmiuniversity.com/check-out/done")
+                res.redirect("https://muslimschoool.com/check-out/done")
     
     
             }
     
         } else {
     
-            res.redirect("https://qawmiuniversity.com/check-out/failed")
+            res.redirect("https://muslimschoool.com/check-out/failed")
         }
     
 
     }catch(err){
        
-          res.redirect("https://qawmiuniversity.com/check-out/failed")
+          res.redirect("https://muslimschoool.com/check-out/failed")
     }
    
 
@@ -203,7 +203,7 @@ const cancel_callback = async (req, res, next) => {
 
 
 
-    res.redirect("https://qawmiuniversity.com/check-out/failed")
+    res.redirect("https://muslimschoool.com/check-out/failed")
 
 
 

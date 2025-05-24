@@ -100,7 +100,7 @@ connectDB();
 
 
 app.get('/', async (req, res) => {
-  res.send('Qawmi primary server is running');
+  res.send('Muslim school server is running');
 });
 
 app.use('/course', courseHandler);
@@ -198,7 +198,7 @@ app.use(imageHandler);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ['https://qawmilimited.com.bd','https://qawmiuniversity.com', 'http://localhost:5173','https://www.qawmiuniversity.com'],
+    origin: ['https://muslimschoool.com.bd','https://muslimschoool.com', 'http://localhost:5173','https://www.muslimschoool.com'],
   },
 });
 

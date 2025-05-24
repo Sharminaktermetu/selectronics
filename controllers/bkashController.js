@@ -40,7 +40,7 @@ const createBPayment=asyncHandler(async (req, res) => {
         result = await executePayment(bkashConfig, paymentID);
   
         if (result?.statusCode !== '0000') {
-          res.redirect('https://qawmiuniversity.com/check-out/failed');
+          res.redirect('https://muslimschoool.com/check-out/failed');
           return;
         }
       }
@@ -63,10 +63,10 @@ const createBPayment=asyncHandler(async (req, res) => {
   
         
   
-        res.redirect('https://qawmiuniversity.com/check-out/payment-successful');
+        res.redirect('https://muslimschoool.com/check-out/payment-successful');
         return;
       } else {
-        res.redirect('https://qawmiuniversity.com/check-out/failed');
+        res.redirect('https://muslimschoool.com/check-out/failed');
         return;
       }
     } catch (e) {

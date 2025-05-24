@@ -25,13 +25,13 @@ console.log(OTP);
     const email = req.body.email;
     const msg = {
               to: email,
-              from: 'care@qawmiuniversity.com', // Sender's email address
+              from: 'care@muslimschoool.com', // Sender's email address
               subject: 'Your OTP for Verification',
-              text: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              text: `Your verification code for muslimschoool: <strong> ${OTP}</strong>
               <br/>
             The code will expire in 5 minutes.
             Please do NOT share your otp with others.`,
-              html: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              html: `Your verification code for muslimschoool: <strong> ${OTP}</strong>
                 <br/>
               The code will expire in 5 minutes.
               Please do NOT share your otp with others.`,
@@ -63,13 +63,13 @@ console.log(OTP);
     const email = req.body.email;
     const msg = {
               to: email,
-              from: 'care@qawmiuniversity.com', // Sender's email address
-              subject: 'Qawmi University OTP verification code - Forgot Password',
-              text: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              from: 'care@muslimschoool.com', // Sender's email address
+              subject: 'muslimschoool OTP verification code - Forgot Password',
+              text: `Your verification code for muslimschoool: <strong> ${OTP}</strong>
               <br/>
             The code will expire in 5 minutes.
             Please do NOT share your otp with others.`,
-              html: `Your verification code for Qawmi University: <strong> ${OTP}</strong>
+              html: `Your verification code for muslimschoool: <strong> ${OTP}</strong>
               <br/>
             The code will expire in 5 minutes.
             Please do NOT share your otp with others.`,

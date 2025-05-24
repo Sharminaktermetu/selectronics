@@ -13,8 +13,8 @@ const sendEmail = async (req, res) => {
     const message = {
       to: req.body.to, // jodi multiple patate cai tahole array er vitore dite hbe
       from: {
-        name: "Qawmi University",
-        email: "care@qawmiuniversity.com",
+        name: "muslimschoool",
+        email: "care@muslimschoool.com",
       },
       subject: req.body.subject,
       text: req.body.text,

@@ -4,7 +4,7 @@ const connectDB = async () => {
   // `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/prophetSchoolBackend?retryWrites=true&w=majority`,
   mongoose
     .connect(
-      `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/prophetSchoolBackend?retryWrites=true&w=majority`,
+      `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/muslimSchool?retryWrites=true&w=majority`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
