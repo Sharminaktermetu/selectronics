@@ -198,7 +198,7 @@ app.use(imageHandler);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ['https://qawmilimited.com.bd','https://qawmiuniversity.com', 'http://localhost:5173','https://www.qawmiuniversity.com'],
+    origin: ['https://qawmilimited.com.bd','https://qawmiuniversity.com', 'http://localhost:3000','https://www.qawmiuniversity.com'],
   },
 });
 

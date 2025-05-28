@@ -17,4 +17,6 @@ router.route("/teacher/:email").get(getCourseForTeacher)
 router.route("/get-search").post(getCourseBySearch)
 router.route("/like/:id").put(likeUpdate)
 
+
+
 module.exports=router

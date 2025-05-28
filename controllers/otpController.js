@@ -24,6 +24,37 @@ const getOtp = (async (req, res) => {
 })
 
 
+const checkPhnEmail = async (req, res) => {
+    console.log('clicked')
+  try {
+    const { input } = req.body;
+
+    if (!input) {
+      return res.status(400).json({ success: false, message: 'Input is required' });
+    }
+
+    const isEmail = /\S+@\S+\.\S+/.test(input);
+    const isPhone = /^\d{10,15}$/.test(input); // Accepts 10–15 digit numbers
+
+    if (!isEmail && !isPhone) {
+      return res.status(400).json({ success: false, message: 'Invalid input format' });
+    }
+
+    const existingUser = await User.findOne({
+      $or: [{ email: input }, { number: input }],
+    });
+
+    return res.status(200).json({
+      success: true,
+      exists: !!existingUser,
+    });
+
+  } catch (error) {
+    console.error("Error checking user existence:", error);
+    return res.status(500).json({ success: false, message: 'Server error' });
+  }
+};
+
 
 const sendOtp = async (req, res) => {
     console.log(req.body);
@@ -152,5 +183,5 @@ module.exports = {
     verifyOtp,
     forgotSendOtp,
     // verifyForgotOtp
-
+checkPhnEmail
 };
