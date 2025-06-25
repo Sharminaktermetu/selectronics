@@ -28,7 +28,28 @@ const getAllCurrentStudent = asyncHandler(async (req, res) => {
   });
 });
 
+const deleteCurrentStudent = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const deletedStudent = await CurrentStudent.findByIdAndDelete(id);
+
+  if (!deletedStudent) {
+    return res.status(404).json({
+      success: false,
+      message: 'Student not found',
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: 'Student deleted successfully',
+    data: deletedStudent,
+  });
+});
+
+
 module.exports = {
   createCurrentStudent,
   getAllCurrentStudent,
+  deleteCurrentStudent
 };
