@@ -44,6 +44,7 @@ const shurjoPay = require('./routeHandler/Shurjo-pay');
 const sslPay = require('./routeHandler/sslHandler');
 
 const roomHandler = require('./routeHandler/roomHandler');
+// const currentStudentHandler = require('./routeHandler/currentStudent');
 
 const chatHandler = require('./routeHandler/chatHandler');
 const messageHandler = require('./routeHandler/messageHandler');
@@ -161,6 +162,8 @@ app.use('/pricingplan', pricingPlanHandler);
 app.use('/feedback', feedBackHandler);
 app.use('/mail', sendMailHandler);
 app.use('/leaderBoard', leaderBoardHandler);
+
+app.use('/api/current-students', require('./routeHandler/currentStudent'));
 // 
 app.use('/', sslPay)
 // 
