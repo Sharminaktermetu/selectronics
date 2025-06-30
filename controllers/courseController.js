@@ -27,7 +27,6 @@ const createCourse = asyncHandler(async (req, res) => {
   }
 });
 
-
 const getAllCourse = asyncHandler(async (req, res) => {
   try {
     const courses = await Course.find({
