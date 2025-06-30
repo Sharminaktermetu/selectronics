@@ -12,7 +12,7 @@ const connectDB = async () => {
       }
     )
     .then(() => console.log("connected successfully"))
-  .catch((error) => console.log(error,''));
+  .catch((error) => console.log(error,'ok'));
 };
 
 module.exports = connectDB;
