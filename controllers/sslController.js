@@ -86,7 +86,7 @@ const sslPaySuccess = async (req, res) => {
     );
 
     if (result.modifiedCount > 0) {
-      res.redirect(`https://qawmiuniversity.com/check-out/payment-successful`);
+      res.redirect(`https://muslimschoool.com/check-out/payment-successful`);
     } else {
       // Handle the case where the document with the provided transactionID was not found or not modified.
       res.status(404).send('Not Found');
@@ -101,7 +101,7 @@ const sslPaySuccess = async (req, res) => {
 const sslPayFaild =async(req,res)=>{
       const deletePayment =await BkashPayment.deleteOne({transactionID:req.params.tranId})
       if (deletePayment.deletedCount) {
-        res.redirect('https://qawmiuniversity.com/check-out/failed')
+        res.redirect('https://muslimschoool.com/check-out/failed')
       }
 }
 module.exports = {

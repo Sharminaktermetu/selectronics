@@ -11,7 +11,7 @@ const { checkLogin } = require('../middlewares/checkLogin');
 const router = express.Router();
 
 router.route('/').post(createbook).get(getAllbook);
-router.route('/:id').get(checkLogin, getSingleBook);
+router.route('/:id').get(getSingleBook);
 
 router.route('/delete/:id').delete(getSingleBookDelete);
 router.route('/:id').put(updateBook);
