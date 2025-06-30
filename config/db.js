@@ -1,11 +1,10 @@
 const mongoose = require("mongoose");
 
 const connectDB = async () => {
-  // mongodb+srv://new-user:dz5lEcBMj7JwHfGN@cluster0.pjt1xjf.mongodb.net/?retryWrites=true&w=majority
-  // mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority
+ 
   mongoose
     .connect(
-      `mongodb+srv://qawmiuniversity:lT3QCzGygRWuNynS@qawmiuniversity.5fbyuku.mongodb.net/?retryWrites=true&w=majority`,
+      `mongodb+srv://MSBackend:So12uDY3G6KHD3hT@msbackend.dha4rdk.mongodb.net/?retryWrites=true&w=majority&appName=MSBackend`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -16,3 +15,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+// Tv0eC7zRpehIa9uJ
