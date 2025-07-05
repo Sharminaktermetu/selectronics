@@ -76,7 +76,9 @@ app.use(fileUpload({ tempFileDir: '/temp' }));
 // app.use(cors({
 //   origin: ['https://muslimschoool.com', 'http://localhost:3000','https://www.qawmiuniversity.com'],
 // }));
-app.use(cors());
+app.use(cors({
+  origin: "*",
+}));
 
 app.use(compression({
   level:6,
@@ -201,7 +203,7 @@ app.use(imageHandler);
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ['https://qawmilimited.com.bd','https://muslimschoool.com', 'http://localhost:3000','https://www.muslimschoool.com'],
+    origin: "*",
   },
 });
 
