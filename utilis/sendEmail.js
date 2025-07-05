@@ -10,7 +10,7 @@ const sendEmail=async(option)=>{
     to: option.to, // jodi multiple patate cai tahole array er vitore dite hbe
     from: {
       name: "Muslim School",
-      email: "care@muslimschoool.com",
+      email: "care@qawmiuniversity.com",
     },
     subject: option.subject,
     text: option.text,

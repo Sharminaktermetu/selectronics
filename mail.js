@@ -10,7 +10,7 @@ const sendEmail = async (req, res) => {
       to: "bugsmashersbd@gmail.com", // jodi multiple patate cai tahole array er vitore dite hbe
       from: {
         name: "muslim schoool",
-        email: "care@muslimschoool.com",
+        email: "care@qawmiuniversity.com",
       },
       subject: "Hello from muslim schoool",
       text: "Its jain",

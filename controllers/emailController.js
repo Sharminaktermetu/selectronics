@@ -25,7 +25,7 @@ console.log(OTP);
     const email = req.body.email;
     const msg = {
               to: email,
-              from: 'support@muslimschoool.com', // Sender's email address
+              from: 'care@qawmiuniversity.com', // Sender's email address
               subject: 'Your OTP for Verification',
               text: `Your verification code for Muslim School: <strong> ${OTP}</strong>
               <br/>
