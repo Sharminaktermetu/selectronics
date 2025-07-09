@@ -16,60 +16,89 @@ const ObjectId = require("mongodb").ObjectId;
 
 const registerUser = asyncHandler(async (req, res) => {
   try {
-    let user;
+    const {
+      name,
+      age,
+      role,
+      location,
+      number,
+      email,
+      password,
+      institutionName,
+      classType,
+      subject,
+      guardianName,
+    } = req.body;
 
-    // Check if either number or email is present in the request body
-    if (req.body.number) {
-      user = await User.findOne({ number: req.body.number });
-    } else if (req.body.email) {
-      user = await User.findOne({ email: req.body.email });
-    } else {
+    // Basic validation
+    if (!name || !password || (!email && !number)) {
       return res.status(400).json({
         success: false,
-        error: "Please provide either 'number' or 'email' in the request body",
+        error: "Name, password, and either email or number are required",
       });
     }
 
-    const verifyToken = crypto.randomBytes(20).toString("hex");
+    // Check if user already exists
+    let existingUser = null;
+    if (number) {
+      existingUser = await User.findOne({ number });
+    }
+    if (!existingUser && email) {
+      existingUser = await User.findOne({ email });
+    }
 
-    // Hash token (private key) and save to database
+    if (existingUser) {
+      return res.status(409).json({
+        success: false,
+        error: "User already registered",
+      });
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Generate verification token
+    const verifyToken = crypto.randomBytes(20).toString("hex");
     const encryptedToken = crypto
       .createHash("sha256")
       .update(verifyToken)
       .digest("hex");
 
-    if (user) {
-      return res.status(201).json({
-        success: false,
-        error: "User already registered",
-      });
-    } else {
-      const hashedPass = await bcrypt.hash(req.body.password, 10);
-      const newUser = await User.create({
-        name: req.body.name,
-        number: req.body.number,
-        email: req.body.email,
-        password: hashedPass,
-        role: req?.body?.role,
-        verifyToken: encryptedToken,
-        verifyTokenExpire: Date.now() + 60 * (60 * 1000)
-      });
+    // Prepare user data object dynamically
+    const userData = {
+      name,
+      password: hashedPassword,
+      verifyToken: encryptedToken,
+      verifyTokenExpire: Date.now() + 60 * 60 * 1000, // 1 hour
+    };
 
-      console.log(newUser);
+    // Add optional fields if present
+    if (email) userData.email = email;
+    if (number) userData.number = number;
+    if (age) userData.age = age;
+    if (role) userData.role = role;
+    if (location) userData.location = location;
+    if (institutionName) userData.institutionName = institutionName;
+    if (classType) userData.classType = classType;
+    if (subject) userData.subject = subject;
+    if (guardianName) userData.guardianName = guardianName;
 
-      return res.status(200).send({
-        success: true,
-        message: "User created successfully",
-        data: newUser,
-      });
-    }
+    const newUser = await User.create(userData);
+
+    return res.status(201).json({
+      success: true,
+      message: "User registered successfully",
+      data: newUser,
+    });
   } catch (error) {
-    console.error(error);
+    console.error("Registration error:", error);
     res.status(500).json({
+      success: false,
       error: "Registration failed",
     });
   }
 });
+
 
 
 
