@@ -31,6 +31,31 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true
 },
+age: {
+  type: String,
+},
+
+location: {
+  type: String,
+},
+
+institutionName: {
+  type: String,
+},
+
+classType: {
+  type: String,
+},
+
+subject: {
+  type: String,
+},
+
+guardianName: {
+  type: String,
+},
+
+
  studentId:String,
  teamId:String,
  

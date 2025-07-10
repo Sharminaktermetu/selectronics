@@ -50,7 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
     if (existingUser) {
       return res.status(409).json({
         success: false,
-        error: "User already registered",
+        error: "User already registered with this number or email",
       });
     }
 
