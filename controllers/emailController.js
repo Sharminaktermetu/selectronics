@@ -49,6 +49,7 @@ console.log(OTP);
 
     return res.json({ success: true, message: 'Email OTP sent successfully' });
 };
+
 const recoveryEmailOtpSend = async (req, res) => {
     const user = await User.findOne({
         email: req.body.email
@@ -63,7 +64,7 @@ console.log(OTP);
     const email = req.body.email;
     const msg = {
               to: email,
-              from: 'support@muslimschoool.com', // Sender's email address
+              from: 'care@qawmiuniversity.com', // Sender's email address
               subject: 'MuslimSchool  OTP verification code - Forgot Password',
               text: `Your verification code for MuslimSchool : <strong> ${OTP}</strong>
               <br/>
