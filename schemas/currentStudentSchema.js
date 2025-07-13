@@ -26,6 +26,9 @@ const currentStudentSchema = mongoose.Schema({
     type: String,
     
   },
+  label:{
+      type: String,
+  }
 
 });
 

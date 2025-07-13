@@ -8,7 +8,7 @@ const CurrentStudent = mongoose.models.CurrentStudent || mongoose.model('Current
 
 
 const createCurrentStudent = asyncHandler(async (req, res) => {
-  console.log('req.body', req.body); // You missed passing req.body to console.log
+// You missed passing req.body to console.log
 
   await CurrentStudent.create(req.body);
 
