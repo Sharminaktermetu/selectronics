@@ -73,9 +73,7 @@ const { bkashConfig } = require('./config/bkashConfig');
 
 app.use(express.json());
 app.use(fileUpload({ tempFileDir: '/temp' }));
-app.use(cors({
-  origin: ['https://muslimschoool.com', 'http://localhost:3000','https://www.funiversity.com'],
-}));
+app.use(cors());
 app.use(cors({
   origin: "*",
 }));
