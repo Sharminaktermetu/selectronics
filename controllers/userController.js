@@ -95,13 +95,14 @@ const ObjectId = require("mongodb").ObjectId;
 //     });
 //   }
 // });
-export const registerUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   try {
     const {
       name,
       fatherName,
       email,
       number,
+      password,
       dob,
       nationality,
       married,
@@ -116,7 +117,12 @@ export const registerUser = asyncHandler(async (req, res) => {
       perThana,
       perPostCode,
       perAddressLine,
+      currCountry,
+      currDistrict,
+      currThana,
+      currPostCode,
       currAddressLine,
+      qual1,
       qual2,
       qual3,
       Department,
@@ -129,42 +135,40 @@ export const registerUser = asyncHandler(async (req, res) => {
       bankAccountNum,
       branchName,
       routingName,
-      role,
-      password
+      role
     } = req.body;
 
-    // ✅ Basic validation
+    // Basic validation
     if (!name || (!email && !number)) {
-      return res.status(400).json({
-        success: false,
-        message: "Name and either email or number are required",
-      });
+      return res.status(400).json({ success: false, message: "Name and either email or number are required" });
     }
 
-    // ✅ Check if user already exists
+    // Check for existing user
     let existingUser = null;
     if (email) existingUser = await User.findOne({ email });
     if (!existingUser && number) existingUser = await User.findOne({ number });
 
     if (existingUser) {
-      return res.status(409).json({
-        success: false,
-        message: "User already exists with this email or phone",
-      });
+      return res.status(409).json({ success: false, message: "User already exists with this email or number" });
     }
 
-    // ✅ Hash password if given
+    // Hash password if provided
     let hashedPassword = "";
     if (password) {
       hashedPassword = await bcrypt.hash(password, 10);
     }
 
-    // ✅ Create new user
-    const newUser = await User.create({
+    // Generate verification token
+    const verifyToken = crypto.randomBytes(20).toString("hex");
+    const encryptedToken = crypto.createHash("sha256").update(verifyToken).digest("hex");
+
+    // Create user document
+    const userData = {
       name,
       fatherName,
       email,
       number,
+      password: hashedPassword,
       dob,
       nationality,
       married,
@@ -179,7 +183,12 @@ export const registerUser = asyncHandler(async (req, res) => {
       perThana,
       perPostCode,
       perAddressLine,
+      currCountry,
+      currDistrict,
+      currThana,
+      currPostCode,
       currAddressLine,
+      qual1,
       qual2,
       qual3,
       Department,
@@ -193,24 +202,22 @@ export const registerUser = asyncHandler(async (req, res) => {
       branchName,
       routingName,
       role,
-      password: hashedPassword,
-    });
+      verifyToken: encryptedToken,
+      verifyTokenExpire: Date.now() + 60 * 60 * 1000 // 1 hour
+    };
+
+    const newUser = await User.create(userData);
 
     res.status(201).json({
       success: true,
       message: "User created successfully",
-      data: newUser,
+      data: newUser
     });
-
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 });
-
 
 
 const persistUser = asyncHandler(async (req, res) => {
