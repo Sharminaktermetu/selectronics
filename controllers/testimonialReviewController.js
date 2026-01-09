@@ -70,31 +70,29 @@ const deleteReview = asyncHandler(async (req, res) => {
     });
   }
 });
-const ReviewUpdate = asyncHandler(async (req, res) => {
-  try {
-    ;
-    ;
-    const c_id = req.params.reviewId;
-    ;
-    const data = await Review.updateOne(
-      { _id: c_id },
-      {
-        $set: {
-          ...req.body,
-        },
-      }
-    );
 
-    res.status(201).json({
-      success: true,
-      data: data,
-    });
-  } catch (error) {
-    res.status(401).json({
-      error: 'Something error, can not get user data',
+const ReviewUpdate = asyncHandler(async (req, res) => {
+  const c_id = req.params.reviewId;
+
+  const updatedReview = await Review.findByIdAndUpdate(
+    c_id,
+    { $set: req.body },
+    { new: true, runValidators: true }
+  );
+
+  if (!updatedReview) {
+    return res.status(404).json({
+      success: false,
+      message: "Review not found",
     });
   }
+
+  res.status(200).json({
+    success: true,
+    data: updatedReview,
+  });
 });
+
 module.exports = {
   insertReview,
   getAllReview,

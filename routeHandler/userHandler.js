@@ -12,7 +12,8 @@ const {registerUser, loginUser,
        filterByCoursePurchasing, getUserBySearch,persistUser,
         getStudentByID,updateLevels, verifyEmail, 
         getStudentByStudentId, getSingleUserHome, 
-        updateCart} = require('../controllers/userController')
+        updateCart,
+        registerTeacher} = require('../controllers/userController')
 
 
 const router=express.Router()
@@ -30,6 +31,7 @@ router.route('/delete/:email').delete(deleteUser)
 router.route('/all').get(getAllUser)
 router.route('/studentId/:studentId').get(getStudentByStudentId)
 router.route('/signup').post(registerUser)
+router.route('/signup/teacher').post(registerTeacher)
 router.post('/login',loginUser)
 // router.route('/forgotpassword').post(forgotPassword)
 router.route("/passwordreset").put(resetPassword);

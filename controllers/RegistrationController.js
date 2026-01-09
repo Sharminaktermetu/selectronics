@@ -66,16 +66,39 @@ const RegistrationUpdateById = asyncHandler(async (req, res) => {
 });
 
 const getAllRegistration = asyncHandler(async (req, res) => {
- 
   try {
-    const messages = await Registration.find({});
+    const page = parseInt(req.query.page) || 1;
+    const limit =
+      req.query.limit === "all" ? 0 : parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    res.json(messages);
+   
+const totalUsers = await Registration.countDocuments();
+const users = await Registration.find()
+  .skip(limit === 0 ? 0 : skip)
+  .limit(limit)
+  .sort({ _id: -1 });
+
+
+    res.status(200).json({
+      success: true,
+      count: users.length,
+      data: users,
+      pagination: {
+        totalUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit),
+        pageSize: limit,
+      },
+    });
   } catch (error) {
-    res.status(400);
-    throw new Error(error.message);
+    console.error(error);
+    res.status(500).json({
+      error: "Something went wrong, cannot get user data",
+    });
   }
 });
+
 const getTeacherApplication = asyncHandler(async (req, res) => {
   try {
     const { page = 1, pageSize = 10 } = req.query;
@@ -232,6 +255,24 @@ const SingleUserRegDelete = asyncHandler(async (req, res) => {
 
     const query = { _id: ObjectId(id) };
 
+    const UserRegDelete = await User.deleteOne(query);
+
+    res.status(201).json({
+      success: true,
+      data: UserRegDelete,
+    });
+  } catch (error) {
+    res.status(401).json({
+      error: 'Something error, can not get user data',
+    });
+  }
+});
+const SingleRegDelete = asyncHandler(async (req, res) => {
+  try {
+    const id = req.params.id;
+
+    const query = { _id: ObjectId(id) };
+
     const UserRegDelete = await Registration.deleteOne(query);
 
     res.status(201).json({
@@ -255,5 +296,6 @@ module.exports = {
  RegistrationUpdateById,
  getTeacherApplication,
  getTeacherFinal,
- getTeacherInterview
+ getTeacherInterview,
+ SingleRegDelete
 };

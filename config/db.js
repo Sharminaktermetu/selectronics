@@ -4,7 +4,7 @@ const connectDB = async () => {
  
   mongoose
     .connect(
-      `mongodb+srv://MSBackend:So12uDY3G6KHD3hT@msbackend.dha4rdk.mongodb.net/?retryWrites=true&w=majority&appName=MSBackend`,
+      `mongodb+srv://sharmin:wW4XHat7Bla0Q7hK@cluster0.asjv0yk.mongodb.net/?appName=Cluster0`,
       {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -15,4 +15,3 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-// Tv0eC7zRpehIa9uJ

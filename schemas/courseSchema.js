@@ -72,17 +72,17 @@ const courseSchema = mongoose.Schema({
   price: {
     type: Number,
   },
-  banSalePrice:{
-    type:String,
+  banSalePrice: {
+    type: String,
   },
-  banPrice:{
-    type:String
+  banPrice: {
+    type: String,
   },
   description: String,
-  PromoCode:String,
-  PromoPercentage:Number,
-  visibility:String,
-  courseFuture:Object,
+  PromoCode: String,
+  PromoPercentage: Number,
+  visibility: String,
+  courseFuture: Object,
   curriculum: [
     {
       moduleName: String,
@@ -93,7 +93,7 @@ const courseSchema = mongoose.Schema({
           preview: Boolean,
           video: String,
           duration: Object,
-          previewVideo:String,
+          previewVideo: String,
           quizes: [
             {
               question: String,
@@ -122,42 +122,87 @@ const courseSchema = mongoose.Schema({
   //     }
   // ],
   FAQ: [{ category: String, question: String, answer: String }],
+  pay: [{ category: String, question: String, answer: String }],
   whatLearn: [
-    {
-        title: String,
-        uploadUrl: String,
-    }
-],
-whatYouGet: [
-    {
-      uploadUrl: String,
-      title: String,
-      subtitle:String
-    }
-],
-courseWhy: [
-    {
-      uploadUrl: String,
-      title: String,
-      subtitle:String,
-      layout:String 
-    }
-],
-courseForWhom:[
-  {title:String}
-],
-  announcement: String,
-  review:[{
-    rate:Number,
-   review:String,
-    reviewer:Object
 
-  }],
-  //    teacher:{
-  //     type:mongoose.Types.ObjectId,
-  //     ref:'User'
-  // }
+    {
+      title: String,
+      uploadUrl: String,
+    },
+  ],
+  whatYouGet: [
+
+    {
+      uploadUrl: String,
+      title: String,
+      subtitle: String,
+    },
+  ],
+ courseWhy: [
+  {
+    uploadUrl: { type: String, default: "" },
+    title: { type: String, default: "" },
+    subtitle: { type: String, default: "" },
+    layout: { type: String, default: "" },
+  },
+],
+courseWhyTitle: {  primaryTopTitle: { type: String, default: "" },   // primary top title
+  secondaryTopTitle: { type: String, default: "" },},
+
+  courseForWhom: [{ title: String }],
+  announcement: String,
+  review: [
+    {
+      rate: Number,
+      review: String,
+      reviewer: Object,
+    },
+  ],
+  teacher: {
+    type: mongoose.Types.ObjectId,
+    ref: "User",
+  },
+
+
+  // home page display data
+  totalEnroll: {
+    type: Number,
+    default: 0,
+  },
+
+  classNote: {
+    type: String,
+  },
+
+  lectures: {
+    type: String,
+  },
+  courseDuration: {
+    type: String,
+  },
+  // course detail page  data
+//   মোট লাইভ ক্লাস --------ইনপুট 
+// ক্লাস ভিডিও-নোট ---ইনপুট 
+// লেভেল --------ইনপুট 
+// কোর্স ফি--------ইনপুট 
+// সার্টিফিকেট --------ইনপুট 
+// কোর্সের বিবরণ --------ইনপুট 
+// কোর্সটি করছেন --------ইনপুট
+// make it dynamic
+coursedetails :{
+  totalLiveClass : String,
+  classVideoNote : String,
+  level : String,
+  courseFee : String,
+  courseDescription : String,
+  courseEnrolled : String,
+},
+
+
+
   likes: Array,
+
+  //
 });
 
 module.exports = courseSchema;

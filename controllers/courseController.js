@@ -27,6 +27,7 @@ const createCourse = asyncHandler(async (req, res) => {
   }
 });
 
+
 const getAllCourse = asyncHandler(async (req, res) => {
   try {
     const courses = await Course.find({
@@ -57,7 +58,15 @@ const getAllCourse = asyncHandler(async (req, res) => {
         'banSalePrice',
         'studentTotal',
         'teacherName' ,
-        'engTitle',
+       'engTitle',
+       'courseDuration',
+       'lectures',
+       'classNote',
+       'totalEnroll',
+       'courseWhyTitle'
+
+      
+
 
       ])
       .find({ _id: { $ne: '6300ab9c3429913af039b41a' } });
@@ -117,7 +126,7 @@ const courseUpdate = asyncHandler(async (req, res) => {
   try {
     const c_id = req.body.id;
 
-    console.log(req.body);
+
 
     const data = await Course.findOneAndUpdate(
       { _id: ObjectId(c_id)},
@@ -145,25 +154,59 @@ const courseUpdate = asyncHandler(async (req, res) => {
 
 // get single course
 
-const getSingleCourse = asyncHandler(async (req, res) => {
+// const getSingleCourse = asyncHandler(async (req, res) => {
+//   try {
+//     const id = req.params.id;
+//     const course = await Course.findOne({_id: ObjectId(id)}).select({
+//       'curriculum.lessons.quizes': 0,
+//       'curriculum.lessons.video': 0,
+//       'curriculum.lessons.note': 0,
+//     });
+//     console.log(course);
+//     res.status(201).json({
+//       success: true,
+//       data: course,
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       error: 'Something error, can not get user data',
+//     });
+//   }
+// });
+
+const getSingleCourseByTitle = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.id;
-    const course = await Course.findOne({id}).select({
-      'curriculum.lessons.quizes': 0,
-      'curriculum.lessons.video': 0,
-      'curriculum.lessons.note': 0,
+    const engTitle = req.params.engTitle; // grab title from params
+    console.log(engTitle, "line 172");
+
+    const course = await Course.findOne({ engTitle }).select({
+      "curriculum.lessons.quizes": 0,
+      "curriculum.lessons.video": 0,
+      "curriculum.lessons.note": 0,
     });
+
     console.log(course);
-    res.status(201).json({
+
+    if (!course) {
+      return res.status(404).json({
+        success: false,
+        message: "Course not found",
+      });
+    }
+
+    res.status(200).json({
       success: true,
       data: course,
     });
   } catch (error) {
-    res.status(401).json({
-      error: 'Something error, can not get user data',
+    res.status(500).json({
+      error: "Something went wrong, cannot get course data",
     });
   }
 });
+
+
+
 // const getSingleCourse = asyncHandler(async (req, res) => {
 //   try {
 //     const id = req.params.id;
@@ -188,7 +231,7 @@ const getSingleCourse = asyncHandler(async (req, res) => {
 const getSingleCourseforStudent = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
-    const course = await Course.findOne({ _id: ObjectId(id) }).select([
+    const course = await Course.findOne({ _id: ObjectId(id)}).select([
       '_id',
       'title',
       'subTitle',
@@ -341,7 +384,7 @@ module.exports = {
   createCourse,
   getAllCourse,
   courseUpdate,
-  getSingleCourse,
+  // getSingleCourse,
   getManyByFilter,
   getSingleCourseforStudent,
   getSingleForAdmin,
@@ -349,5 +392,5 @@ module.exports = {
   getCourseForTeacher,
   getCourseBySearch,
   likeUpdate,
- 
+ getSingleCourseByTitle
 };

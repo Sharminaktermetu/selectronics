@@ -117,17 +117,11 @@ const registerUser = asyncHandler(async (req, res) => {
       perThana,
       perPostCode,
       perAddressLine,
-      currCountry,
-      currDistrict,
-      currThana,
-      currPostCode,
-      currAddressLine,
       qual1,
       qual2,
       qual3,
       Department,
       joiningDate,
-      totalClasses,
       mfsNumber,
       mfsMedium,
       bankName,
@@ -135,12 +129,22 @@ const registerUser = asyncHandler(async (req, res) => {
       bankAccountNum,
       branchName,
       routingName,
-      role
+      role,
+      totalStudents,
+      experience,
+      institution,
+      expert,
+      totalClasses,
     } = req.body;
 
     // Basic validation
     if (!name || (!email && !number)) {
-      return res.status(400).json({ success: false, message: "Name and either email or number are required" });
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Name and either email or number are required",
+        });
     }
 
     // Check for existing user
@@ -149,7 +153,12 @@ const registerUser = asyncHandler(async (req, res) => {
     if (!existingUser && number) existingUser = await User.findOne({ number });
 
     if (existingUser) {
-      return res.status(409).json({ success: false, message: "User already exists with this email or number" });
+      return res
+        .status(409)
+        .json({
+          success: false,
+          message: "User already exists with this email or number",
+        });
     }
 
     // Hash password if provided
@@ -160,7 +169,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
     // Generate verification token
     const verifyToken = crypto.randomBytes(20).toString("hex");
-    const encryptedToken = crypto.createHash("sha256").update(verifyToken).digest("hex");
+    const encryptedToken = crypto
+      .createHash("sha256")
+      .update(verifyToken)
+      .digest("hex");
 
     // Create user document
     const userData = {
@@ -183,11 +195,7 @@ const registerUser = asyncHandler(async (req, res) => {
       perThana,
       perPostCode,
       perAddressLine,
-      currCountry,
-      currDistrict,
-      currThana,
-      currPostCode,
-      currAddressLine,
+
       qual1,
       qual2,
       qual3,
@@ -202,8 +210,13 @@ const registerUser = asyncHandler(async (req, res) => {
       branchName,
       routingName,
       role,
+      // just the fields i add on model
+      totalStudents,
+      experience,
+      institution,
+      expert,
       verifyToken: encryptedToken,
-      verifyTokenExpire: Date.now() + 60 * 60 * 1000 // 1 hour
+      verifyTokenExpire: Date.now() + 60 * 60 * 1000, // 1 hour
     };
 
     const newUser = await User.create(userData);
@@ -211,14 +224,164 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       success: true,
       message: "User created successfully",
-      data: newUser
+      data: newUser,
     });
   } catch (error) {
     console.error("Error creating user:", error);
-    res.status(500).json({ success: false, message: "Server error", error: error.message });
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
   }
 });
+const registerTeacher = asyncHandler(async (req, res) => {
+  try {
+    const {
+      name,
+      fatherName,
+      email,
+      number,
+      password,
+      dob,
+      nationality,
+      married,
+      gender,
+      birthCertificate,
+      avatar,
+      NID,
+      passport,
+      bio,
+      perCountry,
+      perDistrict,
+      perThana,
+      perPostCode,
+      perAddressLine,
+      qual1,
+      qual2,
+      qual3,
+      Department,
+      joiningDate,
+      mfsNumber,
+      mfsMedium,
+      bankName,
+      bankAccountName,
+      bankAccountNum,
+      branchName,
+      routingName,
+      role, // might be overridden as teacher
+      totalStudents,
+      experience,
+      institution,
+      expert,
+      totalClasses,
+    } = req.body;
 
+    // Basic validation
+    if (!name || (!email && !number)) {
+      return res
+        .status(400)
+        .json({
+          success: false,
+          message: "Name and either email or number are required",
+        });
+    }
+
+    // Check if user exists
+    let existingUser = await User.findOne({
+      $or: [{ email }, { number }],
+    });
+
+    // Hash password if provided
+    let hashedPassword;
+    if (password) {
+      hashedPassword = await bcrypt.hash(password, 10);
+    }
+
+    if (existingUser) {
+      // ✅ If user exists → update role to teacher
+      existingUser.role = "teacher";
+
+      // optionally update other fields if needed
+      existingUser.name = name || existingUser.name;
+      existingUser.fatherName = fatherName || existingUser.fatherName;
+      existingUser.avatar = avatar || existingUser.avatar;
+      existingUser.bio = bio || existingUser.bio;
+
+      if (hashedPassword) {
+        existingUser.password = hashedPassword;
+      }
+
+      await existingUser.save();
+
+      return res.status(200).json({
+        success: true,
+        message: "User already existed, updated to teacher role",
+        data: existingUser,
+      });
+    }
+
+    // ✅ If user does NOT exist → create new one
+    const verifyToken = crypto.randomBytes(20).toString("hex");
+    const encryptedToken = crypto
+      .createHash("sha256")
+      .update(verifyToken)
+      .digest("hex");
+
+    const userData = {
+      name,
+      fatherName,
+      email,
+      number,
+      password: hashedPassword,
+      dob,
+      nationality,
+      married,
+      gender,
+      birthCertificate,
+      avatar,
+      NID,
+      passport,
+      bio,
+      perCountry,
+      perDistrict,
+      perThana,
+      perPostCode,
+      perAddressLine,
+      qual1,
+      qual2,
+      qual3,
+      Department,
+      joiningDate,
+      totalClasses,
+      mfsNumber,
+      mfsMedium,
+      bankName,
+      bankAccountName,
+      bankAccountNum,
+      branchName,
+      routingName,
+      role: "teacher", // force role as teacher
+      totalStudents,
+      experience,
+      institution,
+      expert,
+      verifyToken: encryptedToken,
+      verifyTokenExpire: Date.now() + 60 * 60 * 1000,
+    };
+
+    const newUser = await User.create(userData);
+
+    res.status(201).json({
+      success: true,
+      message: "User created successfully with teacher role",
+      data: newUser,
+    });
+  } catch (error) {
+    console.error("Error creating/updating user:", error);
+    res
+      .status(500)
+      .json({ success: false, message: "Server error", error: error.message });
+  }
+});
 
 const persistUser = asyncHandler(async (req, res) => {
   console.log(req.user?._id);
@@ -356,81 +519,87 @@ const resetPassword = asyncHandler(async (req, res) => {
 
 const updateUser = asyncHandler(async (req, res) => {
   try {
-    const user = await User.find({ email: req.body.email }).select("-password");
-    const users = await User.find({ role: req.body.role }).select("-password");
+    console.log(req);
+    const user = await User.findOne({ email: req.body.email }).select(
+      "-password"
+    );
+    console.log(req.body);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
 
-    let Id = users.length + 1;
+    const users = await User.find({ role: req.body.role }).select("-password");
+    const Id = users.length + 1;
 
     const updateBlock = {};
 
-    if (req.body.role === "teacher" && !user[0]?.teacherId?.length) {
-      updateBlock["teacherId"] = "QUT" + Id;
+    // Assign teacherId or teamId if not already present
+    if (req.body.role === "teacher" && !user.teacherId) {
+      updateBlock.teacherId = "QUT" + Id;
+    }
+    if (req.body.role === "admin" && !user.teamId) {
+      updateBlock.teamId = "QUTM" + Id;
     }
 
-    if (req.body.role === "admin" && !user[0]?.teamId?.length) {
-      updateBlock["teamId"] = "QUTM" + Id;
-    }
-
+    // Add new course if provided
     if (req.body.courseId) {
-      updateBlock["Course"] = [
+      updateBlock.Course = [
         { courseId: req.body.courseId },
-        ...user[0]?.Course,
+        ...(user.Course || []),
       ];
     }
 
-    if (req.body.quizMark && req.body.totalMark) {
-      updateBlock["quizMarks"] = [
+    // Add quiz marks if provided
+    if (req.body.quizMark != null && req.body.totalMark != null) {
+      updateBlock.quizMarks = [
         {
           quizMark: req.body.quizMark,
           totalMark: req.body.totalMark,
           quizSubmittedDate: req.body.quizSubmittedDate,
           quizId: req.body.quizId,
         },
-        ...user[0]?.quizMarks,
+        ...(user.quizMarks || []),
       ];
     }
 
+    // Add teacher payment if provided
     if (req.body.TPayment) {
-      updateBlock["teacherPayment"] = [
+      updateBlock.teacherPayment = [
         req.body.TPayment,
-        ...user[0]?.teacherPayment,
+        ...(user.teacherPayment || []),
       ];
     }
 
-    const allObjectKey = Object.keys(req.body);
-
-    allObjectKey.forEach((item) => {
-      updateBlock[item] =
-        req.body[item].length > 0 ||
-        req.body[item] === true ||
-        req.body[item] === false ||
-        Object.keys(req.body[item]).length !== 0
-          ? req.body[item]
-          : user[0][item];
+    // Update all other fields safely, including booleans like isBlock
+    Object.keys(req.body).forEach((key) => {
+      const value = req.body[key];
+      if (value !== undefined) {
+        if (
+          (Array.isArray(value) && value.length > 0) ||
+          (typeof value === "object" &&
+            !Array.isArray(value) &&
+            Object.keys(value).length > 0) ||
+          typeof value === "boolean" ||
+          typeof value === "number" ||
+          typeof value === "string"
+        ) {
+          updateBlock[key] = value;
+        } else {
+          updateBlock[key] = user[key]; // fallback to existing value
+        }
+      }
     });
 
-    const updatedInfo = {
-      $set: {
-        ...updateBlock,
-      },
-    };
-
-    console.log(req.body.email);
+    const updatedInfo = { $set: updateBlock };
 
     const data = await User.updateMany({ email: req.body.email }, updatedInfo, {
       new: true,
     });
 
-    console.log(data);
-    res.status(201).json({
-      success: true,
-      data: data,
-    });
+    res.status(200).json({ success: true, data });
   } catch (error) {
-    console.log(error);
-    res.status(401).json({
-      error: "Something error, can not update",
-    });
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong, cannot update user" });
   }
 });
 
@@ -568,18 +737,38 @@ const getManyByFilter = asyncHandler(async (req, res) => {
 // getting user by role
 const getUserByRole = asyncHandler(async (req, res) => {
   try {
-    const user = await User.find({ role: req.params.role })
-      .select("-password")
+    const page = parseInt(req.query.page) || 1;
+    const limit =
+      req.query.limit === "all" ? 0 : parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    const totalUsers = await User.countDocuments({ role: req.params.role });
+
+    const users = await User.find({ role: req.params.role })
+      .select(
+        "-password -resetPasswordToken -resetPasswordExpire -verifyToken -verifyTokenExpire"
+      )
+      .skip(limit === 0 ? 0 : skip)
+      .limit(limit) // if limit=0 → returns all
+      .sort({ _id: -1 })
       .populate("studentPayment")
       .populate("Course", "title medium");
 
-    res.status(201).json({
+    res.status(200).json({
       success: true,
-      data: user,
+      count: users.length,
+      data: users,
+      pagination: {
+        totalUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit),
+        pageSize: limit,
+      },
     });
   } catch (error) {
-    res.status(401).json({
-      error: "Something error, can not get user data",
+    console.error(error);
+    res.status(500).json({
+      error: "Something went wrong, cannot get user data",
     });
   }
 });
@@ -588,15 +777,35 @@ const getUserByRole = asyncHandler(async (req, res) => {
 
 const getAllUser = asyncHandler(async (req, res) => {
   try {
-    const user = await User.find({}).select("-password");
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
 
-    res.status(201).json({
+    // Count total users for pagination
+    const totalUsers = await User.countDocuments({});
+
+    // Fetch users with pagination
+    const users = await User.find({})
+      .select("-password")
+      .skip(skip)
+      .limit(limit)
+      .sort({ _id: -1 });
+
+    res.status(200).json({
       success: true,
-      data: user,
+      count: users.length,
+      data: users,
+      pagination: {
+        totalUsers,
+        currentPage: page,
+        totalPages: Math.ceil(totalUsers / limit),
+        pageSize: limit,
+      },
     });
   } catch (error) {
-    res.status(401).json({
-      error: "Something error, can not get user data",
+    console.error(error);
+    res.status(500).json({
+      error: "Something went wrong, cannot get user data",
     });
   }
 });
@@ -970,4 +1179,5 @@ module.exports = {
   getStudentByStudentId,
   getSingleUserHome,
   updateCart,
+  registerTeacher,
 };

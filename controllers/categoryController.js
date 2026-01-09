@@ -173,7 +173,7 @@ const blogCategorydaysPlanUpdate = asyncHandler(async (req, res) => {
 const FAQCategorydaysPlanUpdate = asyncHandler(async (req, res) => {
   try {
     const c_id = req.params.Id;
-    console.log("hitted")
+    
     const CategoryItem = await Category.findOne({ c_id });
 
     const data = await Category.updateOne(

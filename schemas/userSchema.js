@@ -9,77 +9,73 @@ const userSchema = mongoose.Schema({
   ID: String,
   name: {
     type: String,
-   
   },
   email: {
     type: String,
-   
   },
   password: {
     type: String,
-    
   },
   role: {
     type: String,
     default: "",
   },
-  isVerified:{
+  isVerified: {
     type: Boolean,
     default: false,
   },
   number: {
     type: String,
-    required: true
-},
-age: {
-  type: String,
-},
+    required: true,
+  },
+  age: {
+    type: String,
+  },
 
-location: {
-  type: String,
-},
+  location: {
+    type: String,
+  },
 
-institutionName: {
-  type: String,
-},
+  institutionName: {
+    type: String,
+  },
 
-classType: {
-  type: String,
-},
+  classType: {
+    type: String,
+  },
 
-subject: {
-  type: String,
-},
+  subject: {
+    type: String,
+  },
 
-guardianName: {
-  type: String,
-},
+  guardianName: {
+    type: String,
+  },
 
+  studentId: String,
+  teamId: String,
 
- studentId:String,
- teamId:String,
- 
- teacherId:String,
- enrolledDate:String,
+  teacherId: String,
+  enrolledDate: String,
   profession: String,
-  avatar:String,
+  avatar: String,
   school: String,
   address: String,
   fatherName: String,
   number: String,
   dob: String,
   married: String,
-  teacherOfTheMonth:Boolean,
-  studentOfTheMonth:Boolean,
+  teacherOfTheMonth: Boolean,
+  studentOfTheMonth: Boolean,
   nationality: String,
   birthCertificate: String,
   gender: String,
-  isBlock:Boolean,
-  education:{
-    institution:String,
-    currentYear:String,
-    exam:String,
-    passingYear:String
+  isBlock: Boolean,
+  education: {
+    institution: String,
+    currentYear: String,
+    exam: String,
+    passingYear: String,
   },
   NID: String,
   passport: String,
@@ -89,11 +85,23 @@ guardianName: {
   perThana: String,
   perPostCode: String,
   perAddressLine: String,
-  currCountry: String,
-  currDistrict: String,
-  currThana: String,
-  currPostCode: String,
-  currAddressLine: String,
+
+  totalStudents: {
+    type: String,
+  },
+  experience: {
+    type: String,
+  },
+  institution: {
+    type: String,
+  },
+  expert: {
+    type: String,
+  },
+  totalClasses: {
+    type: String,
+  },
+
   studiedSchool: String,
   studiedSubject: String,
   qual1: String,
@@ -112,10 +120,11 @@ guardianName: {
   bankAccountNum: String,
   branchName: String,
   routingName: String,
-  Books:[],
-  bookPayment:[],
-  Course: [ { type: mongoose.Schema.Types.ObjectId, ref: "Course" } ],
-  registration:  {type: mongoose.Schema.Types.ObjectId, ref: "Registration" } ,
+
+  Books: [],
+  bookPayment: [],
+  Course: [{ type: mongoose.Schema.Types.ObjectId, ref: "Course" }],
+  registration: { type: mongoose.Schema.Types.ObjectId, ref: "Registration" },
   payment: {},
   levels: {
     level1: String,
@@ -133,7 +142,7 @@ guardianName: {
       totalMark: Number,
       questionSubmittedDate: String,
       questionId: String,
-      classRoomId: String
+      classRoomId: String,
     },
   ],
   quizMarks: [
@@ -142,41 +151,46 @@ guardianName: {
       totalMark: Number,
       quizSubmittedDate: String,
       quizId: String,
-      classRoomId: String
+      classRoomId: String,
     },
   ],
-  teacherPayment:[
+  teacherPayment: [
     {
-      paymentForMonth:[],
-      paymentDate:String,
-      amountOfPayment:Number
-    }
+      paymentForMonth: [],
+      paymentDate: String,
+      amountOfPayment: Number,
+    },
   ],
-  studentPayment:[
+  studentPayment: [
     {
-      type: mongoose.Schema.Types.ObjectId, ref: "Payment"
-    }
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Payment",
+    },
   ],
-  feedback:Array,
+  feedback: Array,
   points: Number,
-  attendance:[{
-  classRoomId:mongoose.Schema.Types.ObjectId,
-    classId:mongoose.Schema.Types.ObjectId,
-    presentDate:Array
-   
-  }],
-  cartDetails:{},
-  verifyToken:String,
-  verifyTokenExpire:Date
- 
+  attendance: [
+    {
+      classRoomId: mongoose.Schema.Types.ObjectId,
+      classId: mongoose.Schema.Types.ObjectId,
+      presentDate: Array,
+    },
+  ],
+  cartDetails: {},
+  verifyToken: String,
+  verifyTokenExpire: Date,
 });
 userSchema.methods.generateJWT = function () {
-  const token = jwt.sign({
+  const token = jwt.sign(
+    {
       _id: this._id,
-      number: this.number
-  }, process.env.JWT_SECRET, { expiresIn: "7d" });
-  return token
-}
+      number: this.number,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "7d" }
+  );
+  return token;
+};
 userSchema.methods.getResetPasswordToken = () => {
   const resetToken = crypto.randomBytes(20).toString("hex");
 
@@ -185,8 +199,6 @@ userSchema.methods.getResetPasswordToken = () => {
     .createHash("sha256")
     .update(resetToken)
     .digest("hex");
-  
-  
 
   this.resetPasswordToken = encryptedToken;
 
@@ -196,7 +208,6 @@ userSchema.methods.getResetPasswordToken = () => {
   return resetToken;
 };
 
-
-const User = mongoose.model("User",userSchema );
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

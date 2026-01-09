@@ -42,10 +42,7 @@ const bookSchema = mongoose.Schema({
     type: Array,
     required: true,
   },
-  // tags: {
-  //   type: Array,
-  //   required: [true, 'Please provide Tag of the book'],
-  // },
+
 
   author: {
     type: Array,

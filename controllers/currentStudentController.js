@@ -47,9 +47,32 @@ const deleteCurrentStudent = asyncHandler(async (req, res) => {
   });
 });
 
+// update student by ID
+
+const updateStudentById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+// why not it take req.body to update
+
+  const updatedStudent = await CurrentStudent.findByIdAndUpdate(id, req.body, { new: true });
+
+  if (!updatedStudent) {
+    return res.status(404).json({
+      success: false,
+      message: 'Student not found'
+    });
+  }
+
+  res.status(200).json({
+    success: true,
+    message: 'Student updated successfully',
+    data: updatedStudent,
+  });
+});
 
 module.exports = {
   createCurrentStudent,
   getAllCurrentStudent,
-  deleteCurrentStudent
+  deleteCurrentStudent,
+  
+  updateStudentById,
 };
