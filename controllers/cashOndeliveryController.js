@@ -4,8 +4,7 @@ const codOrderSchema = require("../schemas/codOrderSchema");
 const cashOnDeliveryController = async (req, res) => {
   try {
     const {
-      orderID,
-      courseId,
+   
       amount,
       customer,
       paymentMethod,
@@ -19,10 +18,10 @@ const cashOnDeliveryController = async (req, res) => {
         message: "Missing required fields",
       });
     }
+  const orderID = `COD-${Date.now()}`;
 
     const order = await codOrderSchema.create({
       orderID,
-      courseId,
       amount,
       customer,
       paymentMethod,
@@ -32,7 +31,7 @@ const cashOnDeliveryController = async (req, res) => {
 
     return res.status(200).json({
       success: true,
-      url: `${process.env.CLIENT_URL}/order-success?orderId=${order._id}`,
+      url: `http://localhost:3000/order-success?orderId=${order._id}`,
     });
 
   } catch (error) {
