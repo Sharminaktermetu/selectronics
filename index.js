@@ -57,6 +57,7 @@ const addHandler = require('./routeHandler/addHandler');
 const bkashHandler = require('./routeHandler/bkashHandler')
 const checkOtp = require('./routeHandler/otpHandler')
 const checkEmailOtp = require('./routeHandler/emailHandler')
+const cashOnDelivery = require('./routeHandler/cashOnDelivery')
 const session = require('express-session')
 const app = express();
 const server = require('http').createServer(app);
@@ -101,7 +102,7 @@ connectDB();
 
 
 app.get('/', async (req, res) => {
-  res.send('Muslim schook server is running');
+  res.send('Sharmin elctronics server is running');
 });
 
 app.use('/course', courseHandler);
@@ -181,22 +182,14 @@ app.use('/bkash', bkashHandler)
 app.use("/img", imageHandler);
 app.use("/otp", checkOtp);
 app.use("/", checkEmailOtp);
+app.use("/cash-on-delivery", cashOnDelivery);
 app.use(require("./routeHandler/imageHandler"));
 app.use(studentClassGuideHandler);
 app.use(teacherNoteUploadHandler);
 app.use(imageHandler);
 
 
-// app.use((req, res, next) => {
-//     const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-//     const geo = geoip.lookup(ip);
 
-//     if (geo && geo.country === "EG") { // Egypt ব্লক করতে চাইলে
-//         return res.status(403).send("Access Denied");
-//     }
-    
-//     next();
-// });
 
 const io = require('socket.io')(server, {
   pingTimeout: 60000,
@@ -205,8 +198,6 @@ const io = require('socket.io')(server, {
   },
 });
 
-// const server = http.createServer(app);
-// const io = socketio(server);
 
 io.on('connection', (socket) => {
   ;
